@@ -6,7 +6,8 @@ from .objects.base import BridgeBase
 from .objects.audio import Audio
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
-from .objects.command import CommandPayload, CommandResponse
+from .objects.command.payload import CommandPayload
+from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
