@@ -29,16 +29,16 @@ class Bridge(BridgeBase):
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
-        self._audio: List[Audio] = None
-        self._battery: Battery = None
-        self._bluetooth: Bluetooth = None
-        self._cpu: Cpu = None
-        self._filesystem: Filesystem = None
-        self._graphics: Graphics = None
-        self._information: Information = None
-        self._memory: Memory = None
-        self._os: Os = None
-        self._system: System = None
+        self._audio: List[Audio] = []
+        self._battery: Battery = {}
+        self._bluetooth: Bluetooth = {}
+        self._cpu: Cpu = {}
+        self._filesystem: Filesystem = {}
+        self._graphics: Graphics = {}
+        self._information: Information = {}
+        self._memory: Memory = {}
+        self._os: Os = {}
+        self._system: System = {}
 
     @property
     def audio(self) -> List[Audio]:
@@ -90,7 +90,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return response.json()
+        return await response.json()
 
     async def async_post(self, path: str, payload: Any) -> Any:
         """Generic Getter"""
@@ -99,7 +99,7 @@ class Bridge(BridgeBase):
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
         )
-        return response.json()
+        return await response.json()
 
     async def async_get_audio(self) -> List[Audio]:
         """Get audio information"""
@@ -118,7 +118,7 @@ class Bridge(BridgeBase):
 
     async def async_send_command(self, payload: CommandPayload) -> CommandResponse:
         """Get cpu information"""
-        return CommandResponse(await self.async_get("/command", payload))
+        return CommandResponse(await self.async_post("/command", payload))
 
     async def async_get_cpu(self) -> Cpu:
         """Get cpu information"""

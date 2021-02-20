@@ -85,7 +85,7 @@ class Chassis(BridgeBase):
         return self.attributes.get("sku", "")
 
 
-class System(BridgeBase):
+class SystemInner(BridgeBase):
     @property
     def manufacturer(self):
         return self.attributes.get("manufacturer", "")
@@ -144,7 +144,7 @@ class System(BridgeBase):
 
     @property
     def system(self):
-        return System(self.attributes.get("system", {}))
+        return SystemInner(self.attributes.get("system", {}))
 
     @property
     def uuid(self):
