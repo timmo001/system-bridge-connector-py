@@ -1,4 +1,5 @@
 """Bridge: Init"""
+from aiohttp import ClientResponse
 from typing import List
 
 from .client import BridgeClient
@@ -31,85 +32,97 @@ class Bridge(BridgeBase):
 
     async def async_get_audio(self) -> List[Audio]:
         """Get audio information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/audio",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return [Audio(self._client, audio) for audio in await response.json() or []]
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/battery",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Battery(self._client, await response.json())
 
     async def async_get_bluetooth(self) -> Bluetooth:
         """Get bluetooth information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/bluetooth",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Bluetooth(self._client, await response.json())
 
     async def async_send_command(self, payload: CommandPayload) -> CommandResponse:
         """Get cpu information"""
-        return await self._client.post(
+        response: ClientResponse = await self._client.post(
             f"{self._base_url}/command",
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
         )
+        return CommandResponse(self._client, await response.json())
 
     async def async_get_cpu(self) -> Cpu:
         """Get cpu information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/cpu",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Cpu(self._client, await response.json())
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/filesystem",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Filesystem(self._client, await response.json())
 
     async def async_get_graphics(self) -> Graphics:
         """Get graphics information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/graphics",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Graphics(self._client, await response.json())
 
     async def async_get_information(self) -> Information:
         """Get information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/information",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Information(self._client, await response.json())
 
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/memory",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Memory(self._client, await response.json())
 
     async def async_get_network(self) -> Network:
         """Get network information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/network",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Network(self._client, await response.json())
 
     async def async_get_os(self) -> Os:
         """Get os information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/os",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return Os(self._client, await response.json())
 
     async def async_get_system(self) -> System:
         """Get system information"""
-        return await self._client.get(
+        response: ClientResponse = await self._client.get(
             f"{self._base_url}/system",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
+        return System(self._client, await response.json())
