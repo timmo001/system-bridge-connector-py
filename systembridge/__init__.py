@@ -29,6 +29,51 @@ class Bridge(BridgeBase):
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
+        self._data = {}
+
+    @property
+    def audio(self) -> List[Audio]:
+        return self._data.audio
+
+    @property
+    def battery(self) -> Battery:
+        return self._data.battery
+
+    @property
+    def bluetooth(self) -> Bluetooth:
+        return self._data.bluetooth
+
+    @property
+    def cpu(self) -> Cpu:
+        return self._data.cpu
+
+    @property
+    def filesystem(self) -> Filesystem:
+        return self._data.filesystem
+
+    @property
+    def graphics(self) -> Graphics:
+        return self._data.graphics
+
+    @property
+    def information(self) -> Information:
+        return self._data.information
+
+    @property
+    def memory(self) -> Memory:
+        return self._data.memory
+
+    @property
+    def network(self) -> Network:
+        return self._data.network
+
+    @property
+    def os(self) -> Os:
+        return self._data.os
+
+    @property
+    def system(self) -> System:
+        return self._data.system
 
     async def async_get(self, path: str) -> Any:
         """Generic Getter"""
@@ -49,15 +94,20 @@ class Bridge(BridgeBase):
 
     async def async_get_audio(self) -> List[Audio]:
         """Get audio information"""
-        return [Audio(audio) for audio in await self.async_get("/audio") or []]
+        self._data.audio = [
+            Audio(audio) for audio in await self.async_get("/audio") or []
+        ]
+        self._data.audio
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
-        return Battery(await self.async_get("/battery"))
+        self._data.battery = Battery(await self.async_get("/battery"))
+        return self._data.battery
 
     async def async_get_bluetooth(self) -> Bluetooth:
         """Get bluetooth information"""
-        return Bluetooth(await self.async_get("/bluetooth"))
+        self._data.bluetooth = Bluetooth(await self.async_get("/bluetooth"))
+        return self._data.bluetooth
 
     async def async_send_command(self, payload: CommandPayload) -> CommandResponse:
         """Get cpu information"""
@@ -65,32 +115,40 @@ class Bridge(BridgeBase):
 
     async def async_get_cpu(self) -> Cpu:
         """Get cpu information"""
-        return Cpu(await self.async_get("/cpu"))
+        self._data.cpu = Cpu(await self.async_get("/cpu"))
+        return self._data.cpu
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
-        return Filesystem(await self.async_get("/filesystem"))
+        self._data.filesystem = Filesystem(await self.async_get("/filesystem"))
+        return self._data.filesystem
 
     async def async_get_graphics(self) -> Graphics:
         """Get graphics information"""
-        return Graphics(await self.async_get("/graphics"))
+        self._data.graphics = Graphics(await self.async_get("/graphics"))
+        return self._data.graphics
 
     async def async_get_information(self) -> Information:
         """Get information"""
-        return Information(await self.async_get("/information"))
+        self._data.information = Information(await self.async_get("/information"))
+        return self._data.information
 
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
-        return Memory(await self.async_get("/memory"))
+        self._data.memory = Memory(await self.async_get("/memory"))
+        return self._data.memory
 
     async def async_get_network(self) -> Network:
         """Get network information"""
-        return Network(await self.async_get("/network"))
+        self._data.network = Network(await self.async_get("/network"))
+        return self._data.network
 
     async def async_get_os(self) -> Os:
         """Get os information"""
-        return Os(await self.async_get("/os"))
+        self._data.os = Os(await self.async_get("/os"))
+        return self._data.os
 
     async def async_get_system(self) -> System:
         """Get system information"""
-        return System(await self.async_get("/system"))
+        self._data.system = System(await self.async_get("/system"))
+        return self._data.system
