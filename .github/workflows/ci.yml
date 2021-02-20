@@ -37,11 +37,6 @@ jobs:
             steps.python.outputs.python-version }}-${{
             hashFiles('requirements.txt') }}-${{
             hashFiles('requirements_test.txt') }}
-      - name: 🏗 Fail job if Python cache restore failed
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: |
-          echo "Failed to restore Python virtual environment from cache"
-          exit 1
       - name: 🏗 Restore test environment from cache
         id: cache-precommit
         uses: actions/cache@v2.1.4
@@ -49,11 +44,6 @@ jobs:
           path: ${{ env.CACHE_TEST_HOME }}
           key: |
             ${{ env.CACHE_VERSION}}-${{ runner.os }}-test-${{ hashFiles('.test-config.yaml') }}
-      - name: 🏗 Fail job if cache restore failed
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: |
-          echo "Failed to restore Python virtual environment from cache"
-          exit 1
       - name: 🚀 Run black
         run: |
           . venv/bin/activate
@@ -150,11 +140,6 @@ jobs:
             steps.python.outputs.python-version }}-${{
             hashFiles('requirements.txt') }}-${{
             hashFiles('requirements_test.txt') }}
-      - name: 🏗 Fail job if Python cache restore failed
-        if: steps.cache-venv.outputs.cache-hit != 'true'
-        run: |
-          echo "Failed to restore Python virtual environment from cache"
-          exit 1
       - name: 🏗 Restore test environment from cache
         id: cache-precommit
         uses: actions/cache@v2.1.4
@@ -219,6 +204,7 @@ jobs:
       - name: 🏗 Combine coverage results
         run: |
           . venv/bin/activate
+          pip install -r requirements_test.txt
           coverage combine coverage*/.coverage*
           coverage report --fail-under=94
           coverage xml
