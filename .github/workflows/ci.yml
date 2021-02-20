@@ -177,7 +177,7 @@ jobs:
       - name: 🧪 Run pytest
         run: |
           . venv/bin/activate
-          pip install -r test_requirements.txt
+          pip install -r requirements_test.txt
           pytest \
             -qq \
             --timeout=9 \
