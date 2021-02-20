@@ -11,9 +11,7 @@ on:
   workflow_dispatch:
 
 env:
-  CACHE_VERSION: 1
   DEFAULT_PYTHON: 3.9
-  CACHE_TEST_HOME: ~/.cache/test
 
 jobs:
   lint-black:
@@ -27,26 +25,8 @@ jobs:
         id: python
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
-      - name: 🏗 Restore base Python virtual environment
-        id: cache-venv
-        uses: actions/cache@v2.1.4
-        with:
-          path: venv
-          key: >-
-            ${{ env.CACHE_VERSION}}-${{ runner.os }}-base-venv-${{
-            steps.python.outputs.python-version }}-${{
-            hashFiles('requirements.txt') }}-${{
-            hashFiles('requirements_test.txt') }}
-      - name: 🏗 Restore test environment from cache
-        id: cache-precommit
-        uses: actions/cache@v2.1.4
-        with:
-          path: ${{ env.CACHE_TEST_HOME }}
-          key: |
-            ${{ env.CACHE_VERSION}}-${{ runner.os }}-test-${{ hashFiles('.test-config.yaml') }}
       - name: 🚀 Run black
         run: |
-          . venv/bin/activate
           pip install -U black
           black --check .
   lint-jsonlint:
@@ -130,33 +110,14 @@ jobs:
         id: python
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
-      - name: 🏗 Restore base Python virtual environment
-        id: cache-venv
-        uses: actions/cache@v2.1.4
-        with:
-          path: venv
-          key: >-
-            ${{ env.CACHE_VERSION}}-${{ runner.os }}-base-venv-${{
-            steps.python.outputs.python-version }}-${{
-            hashFiles('requirements.txt') }}-${{
-            hashFiles('requirements_test.txt') }}
-      - name: 🏗 Restore test environment from cache
-        id: cache-precommit
-        uses: actions/cache@v2.1.4
-        with:
-          path: ${{ env.CACHE_TEST_HOME }}
-          key: |
-            ${{ env.CACHE_VERSION}}-${{ runner.os }}-test-${{ hashFiles('.test-config.yaml') }}
       - name: 🏗 Install Pytest Annotation plugin
         run: |
-          . venv/bin/activate
-          # Ideally this should be part of our dependencies
+          # Ideally this should be part of the dependencies
           # However this plugin is fairly new and doesn't run correctly
           # on a non-GitHub environment.
           pip install pytest-github-actions-annotate-failures
       - name: 🧪 Run pytest
         run: |
-          . venv/bin/activate
           pip install -r requirements_test.txt
           pytest \
             -qq \
@@ -190,20 +151,10 @@ jobs:
         id: python
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
-      - name: 🏗 Restore full Python ${{ env.DEFAULT_PYTHON }} virtual environment
-        id: cache-venv
-        uses: actions/cache@v2.1.4
-        with:
-          path: venv
-          key: >-
-            ${{ env.CACHE_VERSION}}-${{ runner.os }}-venv-${{
-            matrix.python-version }}-${{ hashFiles('requirements_test.txt')
-            }}-${{ hashFiles('requirements_all.txt') }}
       - name: ⤵ Download all coverage artifacts
         uses: actions/download-artifact@v2
       - name: 🏗 Combine coverage results
         run: |
-          . venv/bin/activate
           pip install -r requirements_test.txt
           coverage combine coverage*/.coverage*
           coverage report --fail-under=94
