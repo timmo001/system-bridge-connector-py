@@ -202,7 +202,6 @@ jobs:
     name: 🏗 Process test coverage
     runs-on: ubuntu-latest
     needs: test
-    container: homeassistant/ci-azure:${{ env.DEFAULT_PYTHON }}
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2.3.4
