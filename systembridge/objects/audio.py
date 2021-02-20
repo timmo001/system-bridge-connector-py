@@ -8,7 +8,6 @@ from .base import BridgeBase
 
 
 class Audio(BridgeBase):
-
     @property
     def id(self):
         return self.attributes.get("id", "")
@@ -42,7 +41,7 @@ class Audio(BridgeBase):
         return self.attributes.get("type", "")
 
     @property
-    def in(self):
+    def p_in(self):
         return self.attributes.get("in", "")
 
     @property
@@ -52,5 +51,3 @@ class Audio(BridgeBase):
     @property
     def status(self):
         return self.attributes.get("status", "")
-
-

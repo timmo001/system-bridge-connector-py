@@ -10,7 +10,25 @@ on:
       - synchronize
   workflow_dispatch:
 
+env:
+  DEFAULT_PYTHON: 3.9
+
 jobs:
+  lint-black:
+    name: 👕 Run Black
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v2.3.4
+      - name: 🏗 Set up Python ${{ env.DEFAULT_PYTHON }}
+        uses: actions/setup-python@v2.2.1
+        id: python
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON }}
+      - name: 🚀 Run black
+        run: |
+          pip install -U black
+          black --check .
   lint-jsonlint:
     name: 👕 JSONLint
     runs-on: ubuntu-latest
@@ -81,14 +99,3 @@ jobs:
           config_file: .yamllint.yml
           format: colored
           strict: false
-  test:
-    name: 🚀 Test Package
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v2.3.4
-      - name: 🏗 Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-          architecture: x64
