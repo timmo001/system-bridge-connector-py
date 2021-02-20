@@ -81,8 +81,8 @@ jobs:
           config_file: .yamllint.yml
           format: colored
           strict: false
-  build-app:
-    name: 🚀 Build Application
+  test:
+    name: 🚀 Test Package
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️ Check out code from GitHub
