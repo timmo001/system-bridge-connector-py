@@ -6,4 +6,16 @@ import pytest
 
 @pytest.fixture()
 def audio_fixture_response():
-    return {'id': 'ROOTBridgeMEDIABridge0000', 'name': 'Oculus Virtual Audio Device', 'manufacturer': 'Oculus', 'revision': '', 'driver': '', 'default': '', 'channel': '', 'type': '', 'in': '', 'out': '', 'status': '3'}
+    return {
+        "id": "ROOTBridgeMEDIABridge0000",
+        "name": "Oculus Virtual Audio Device",
+        "manufacturer": "Oculus",
+        "revision": "",
+        "driver": "",
+        "default": "",
+        "channel": "",
+        "type": "",
+        "in": "",
+        "out": "",
+        "status": "3",
+    }

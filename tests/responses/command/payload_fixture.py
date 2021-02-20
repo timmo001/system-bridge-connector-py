@@ -6,4 +6,4 @@ import pytest
 
 @pytest.fixture()
 def payload_fixture_response():
-    return {'command': 'python', 'arguments': ['-V'], 'wait': True}
+    return {"command": "python", "arguments": ["-V"], "wait": True}

@@ -6,4 +6,20 @@ import pytest
 
 @pytest.fixture()
 def battery_fixture_response():
-    return {'hasBattery': False, 'cycleCount': 0, 'isCharging': False, 'designedCapacity': 0, 'maxCapacity': 0, 'currentCapacity': 0, 'voltage': 0, 'capacityUnit': '', 'percent': 0, 'timeRemaining': None, 'acConnected': True, 'type': '', 'model': '', 'manufacturer': '', 'serial': ''}
+    return {
+        "hasBattery": False,
+        "cycleCount": 0,
+        "isCharging": False,
+        "designedCapacity": 0,
+        "maxCapacity": 0,
+        "currentCapacity": 0,
+        "voltage": 0,
+        "capacityUnit": "",
+        "percent": 0,
+        "timeRemaining": None,
+        "acConnected": True,
+        "type": "",
+        "model": "",
+        "manufacturer": "",
+        "serial": "",
+    }

@@ -6,4 +6,13 @@ import pytest
 
 @pytest.fixture()
 def bluetooth_fixture_response():
-    return {'device': '', 'name': 'Headset Audio Gateway Service', 'manufacturer': 'Microsoft', 'macDevice': '', 'macHost': '', 'batteryPercent': '', 'type': 'Headset', 'connected': ''}
+    return {
+        "device": "",
+        "name": "Headset Audio Gateway Service",
+        "manufacturer": "Microsoft",
+        "macDevice": "",
+        "macHost": "",
+        "batteryPercent": "",
+        "type": "Headset",
+        "connected": "",
+    }

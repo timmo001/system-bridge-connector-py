@@ -6,4 +6,10 @@ import pytest
 
 @pytest.fixture()
 def response_fixture_response():
-    return {'command': 'python', 'arguments': ['-V'], 'wait': True, 'success': True, 'message': 'Python 3.9.1'}
+    return {
+        "command": "python",
+        "arguments": ["-V"],
+        "wait": True,
+        "success": True,
+        "message": "Python 3.9.1",
+    }
