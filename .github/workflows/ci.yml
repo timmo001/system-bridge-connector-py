@@ -19,7 +19,6 @@ jobs:
   lint-black:
     name: 👕 Run Black
     runs-on: ubuntu-latest
-    needs: prepare-base
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2.3.4
