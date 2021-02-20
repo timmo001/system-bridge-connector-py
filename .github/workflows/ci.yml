@@ -125,8 +125,6 @@ jobs:
             --durations=10 \
             -n auto \
             --dist=loadfile \
-            --test-group-count 4 \
-            --test-group=${{ matrix.group }} \
             --cov systembridge \
             -o console_output_style=count \
             -p no:sugar \
