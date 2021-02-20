@@ -36,7 +36,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/audio",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return [Audio(self._client, audio) for audio in await response.json() or []]
+        return [Audio(audio) for audio in await response.json() or []]
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
@@ -44,7 +44,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/battery",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Battery(self._client, await response.json())
+        return Battery(await response.json())
 
     async def async_get_bluetooth(self) -> Bluetooth:
         """Get bluetooth information"""
@@ -52,7 +52,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/bluetooth",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Bluetooth(self._client, await response.json())
+        return Bluetooth(await response.json())
 
     async def async_send_command(self, payload: CommandPayload) -> CommandResponse:
         """Get cpu information"""
@@ -61,7 +61,7 @@ class Bridge(BridgeBase):
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
         )
-        return CommandResponse(self._client, await response.json())
+        return CommandResponse(await response.json())
 
     async def async_get_cpu(self) -> Cpu:
         """Get cpu information"""
@@ -69,7 +69,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/cpu",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Cpu(self._client, await response.json())
+        return Cpu(await response.json())
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
@@ -77,7 +77,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/filesystem",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Filesystem(self._client, await response.json())
+        return Filesystem(await response.json())
 
     async def async_get_graphics(self) -> Graphics:
         """Get graphics information"""
@@ -85,7 +85,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/graphics",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Graphics(self._client, await response.json())
+        return Graphics(await response.json())
 
     async def async_get_information(self) -> Information:
         """Get information"""
@@ -93,7 +93,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/information",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Information(self._client, await response.json())
+        return Information(await response.json())
 
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
@@ -101,7 +101,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/memory",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Memory(self._client, await response.json())
+        return Memory(await response.json())
 
     async def async_get_network(self) -> Network:
         """Get network information"""
@@ -109,7 +109,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/network",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Network(self._client, await response.json())
+        return Network(await response.json())
 
     async def async_get_os(self) -> Os:
         """Get os information"""
@@ -117,7 +117,7 @@ class Bridge(BridgeBase):
             f"{self._base_url}/os",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return Os(self._client, await response.json())
+        return Os(await response.json())
 
     async def async_get_system(self) -> System:
         """Get system information"""
@@ -125,4 +125,4 @@ class Bridge(BridgeBase):
             f"{self._base_url}/system",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return System(self._client, await response.json())
+        return System(await response.json())
