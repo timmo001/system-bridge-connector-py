@@ -3,8 +3,8 @@ from aiohttp import ClientResponse
 from typing import Any, List
 
 from .client import BridgeClient
-from .objects.base import BridgeBase
 from .objects.audio import Audio
+from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
 from .objects.command.payload import CommandPayload
@@ -16,6 +16,7 @@ from .objects.information import Information
 from .objects.memory import Memory
 from .objects.network import Network
 from .objects.os import Os
+from .objects.processes import Processes
 from .objects.system import System
 
 BASE_HEADERS = {"Accept": "application/json"}
@@ -37,6 +38,7 @@ class Bridge(BridgeBase):
         self._graphics: Graphics = {}
         self._information: Information = {}
         self._memory: Memory = {}
+        self._processes: Processes = {}
         self._os: Os = {}
         self._system: System = {}
 
@@ -75,6 +77,10 @@ class Bridge(BridgeBase):
     @property
     def network(self) -> Network:
         return self._network
+
+    @property
+    def processes(self) -> Processes:
+        return self._processes
 
     @property
     def os(self) -> Os:
@@ -149,6 +155,11 @@ class Bridge(BridgeBase):
         """Get network information"""
         self._network = Network(await self.async_get("/network"))
         return self._network
+
+    async def async_get_processes(self) -> Processes:
+        """Get processes information"""
+        self._processes = Processes(await self.async_get("/processes"))
+        return self._processes
 
     async def async_get_os(self) -> Os:
         """Get os information"""
