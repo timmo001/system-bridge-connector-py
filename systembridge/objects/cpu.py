@@ -44,7 +44,7 @@ class CpuCache(BridgeBase):
         return self.attributes.get("l3", None)
 
 
-class Cpu(BridgeBase):
+class CpuInner(BridgeBase):
     @property
     def manufacturer(self):
         return self.attributes.get("manufacturer", "")
@@ -157,7 +157,7 @@ class Cpu(BridgeBase):
 
     @property
     def cpu(self):
-        return Cpu(self.attributes.get("cpu", {}))
+        return CpuInner(self.attributes.get("cpu", {}))
 
     @property
     def currentSpeed(self):
