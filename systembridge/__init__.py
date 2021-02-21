@@ -18,8 +18,6 @@ from .objects.network import Network
 from .objects.os import Os
 from .objects.system import System
 
-BASE_HEADERS = {"Accept": "application/json"}
-
 
 class Bridge(BridgeBase):
     """Main class for Bridge."""
@@ -88,7 +86,7 @@ class Bridge(BridgeBase):
         """Generic Getter"""
         response: ClientResponse = await self._client.get(
             f"{self._base_url}{path}",
-            headers={**BASE_HEADERS, "api-key": self._api_key},
+            headers={"api-key": self._api_key},
         )
         return await response.json()
 
@@ -96,7 +94,7 @@ class Bridge(BridgeBase):
         """Generic Getter"""
         response: ClientResponse = await self._client.get(
             f"{self._base_url}{path}",
-            headers={**BASE_HEADERS, "api-key": self._api_key},
+            headers={"api-key": self._api_key},
             json=payload,
         )
         return await response.json()
