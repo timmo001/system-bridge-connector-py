@@ -27,20 +27,10 @@ class BridgeClient(BridgeBase):
         self, method: str in ["GET", "POST"], url: str, **kwargs
     ) -> ClientResponse:
         """Make a request."""
-        headers = kwargs.get("headers")
-
-        if headers is None:
-            headers = {}
-        else:
-            headers = dict(headers)
-
-        headers["Content-Type"] = "application/json"
-
         async with async_timeout.timeout(20, loop=get_event_loop()):
             response: ClientResponse = await self._session.request(
                 method,
                 url,
-                headers=headers,
                 **kwargs,
             )
         if response.status != 200:
@@ -50,7 +40,6 @@ class BridgeClient(BridgeBase):
                         "request": {
                             "method": method,
                             "url": url,
-                            "headers": headers,
                             **kwargs,
                         },
                         "response": await response.json(),
@@ -63,7 +52,6 @@ class BridgeClient(BridgeBase):
                         "request": {
                             "method": method,
                             "url": url,
-                            "headers": headers,
                             **kwargs,
                         },
                         "response": await response.json(),
