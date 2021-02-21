@@ -38,8 +38,8 @@ class Bridge(BridgeBase):
         self._graphics: Graphics = {}
         self._information: Information = {}
         self._memory: Memory = {}
-        self._processes: Processes = {}
         self._os: Os = {}
+        self._processes: Processes = {}
         self._system: System = {}
 
     @property
@@ -79,12 +79,12 @@ class Bridge(BridgeBase):
         return self._network
 
     @property
-    def processes(self) -> Processes:
-        return self._processes
-
-    @property
     def os(self) -> Os:
         return self._os
+
+    @property
+    def processes(self) -> Processes:
+        return self._processes
 
     @property
     def system(self) -> System:
@@ -156,15 +156,15 @@ class Bridge(BridgeBase):
         self._network = Network(await self.async_get("/network"))
         return self._network
 
-    async def async_get_processes(self) -> Processes:
-        """Get processes information"""
-        self._processes = Processes(await self.async_get("/processes"))
-        return self._processes
-
     async def async_get_os(self) -> Os:
         """Get os information"""
         self._os = Os(await self.async_get("/os"))
         return self._os
+
+    async def async_get_processes(self) -> Processes:
+        """Get processes information"""
+        self._processes = Processes(await self.async_get("/processes"))
+        return self._processes
 
     async def async_get_system(self) -> System:
         """Get system information"""
