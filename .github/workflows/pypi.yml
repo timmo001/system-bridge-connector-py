@@ -1,9 +1,16 @@
 ---
 name: Upload Python Package
 
+# yamllint disable-line rule:truthy
 on:
   release:
-    types: [created]
+    types:
+      - published
+  workflow_run:
+    workflows: ["CI"]
+    branches: [master]
+    types:
+      - completed
 
 jobs:
   deploy:
