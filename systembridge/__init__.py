@@ -1,4 +1,5 @@
 """Bridge: Init"""
+from systembridge.objects.open.payload import OpenPayload
 from aiohttp import ClientResponse
 from typing import Any, List
 
@@ -123,7 +124,7 @@ class Bridge(BridgeBase):
         return self._bluetooth
 
     async def async_send_command(self, payload: CommandPayload) -> CommandResponse:
-        """Get cpu information"""
+        """Send command"""
         return CommandResponse(await self.async_post("/command", payload))
 
     async def async_get_cpu(self) -> Cpu:
@@ -155,6 +156,10 @@ class Bridge(BridgeBase):
         """Get network information"""
         self._network = Network(await self.async_get("/network"))
         return self._network
+
+    async def async_open(self, payload: OpenPayload) -> OpenPayload:
+        """Send command"""
+        return OpenPayload(await self.async_post("/open", payload))
 
     async def async_get_os(self) -> Os:
         """Get os information"""
