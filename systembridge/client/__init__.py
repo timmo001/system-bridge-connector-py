@@ -33,7 +33,7 @@ class BridgeClient(BridgeBase):
                 url,
                 **kwargs,
             )
-        if response.status != 200:
+        if response.status not in (200, 201, 202, 204):
             if response.status == 401:
                 raise BridgeAuthenticationException(
                     {
