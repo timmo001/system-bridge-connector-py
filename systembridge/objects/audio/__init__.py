@@ -3,7 +3,7 @@ Class object for Audio
 Documentation: https://system-bridge.timmo.dev
 """
 from typing import List
-from .base import BridgeBase
+from ..base import BridgeBase
 
 
 class AudioSettings(BridgeBase):
