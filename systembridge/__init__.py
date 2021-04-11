@@ -11,13 +11,11 @@ from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
-from .objects.video.delete import VideoDeleteResponse
-from .objects.video.post import VideoPostPayload, VideoPostResponse
-from .objects.video.put import VideoPutPayload, VideoPutResponse
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.display import Display
+from .objects.display.put import DisplayPutPayload
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
 from .objects.information import Information
@@ -26,6 +24,9 @@ from .objects.network import Network
 from .objects.os import Os
 from .objects.processes import Processes
 from .objects.system import System
+from .objects.video.delete import VideoDeleteResponse
+from .objects.video.post import VideoPostPayload, VideoPostResponse
+from .objects.video.put import VideoPutResponse
 
 BASE_HEADERS = {"Accept": "application/json"}
 
@@ -182,6 +183,12 @@ class Bridge(BridgeBase):
         """Get display information"""
         self._display = Display(await self.async_get("/display"))
         return self._display
+
+    async def async_update_audio(
+        self, id: str, payload: DisplayPutPayload
+    ) -> Display:
+        """Update display"""
+        return AudioPutResponse(await self.async_post(f"/display/{id}", payload))
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
