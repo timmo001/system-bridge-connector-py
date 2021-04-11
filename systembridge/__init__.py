@@ -11,6 +11,9 @@ from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
+from .objects.video.delete import VideoDeleteResponse
+from .objects.video.post import VideoPostPayload, VideoPostResponse
+from .objects.video.put import VideoPutPayload, VideoPutResponse
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
@@ -110,7 +113,7 @@ class Bridge(BridgeBase):
         return await response.json()
 
     async def async_get(self, path: str) -> Any:
-        """Generic Get"""
+        """Generic get"""
         response: ClientResponse = await self._client.get(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
@@ -118,7 +121,7 @@ class Bridge(BridgeBase):
         return await response.json()
 
     async def async_post(self, path: str, payload: Any) -> Any:
-        """Generic Post"""
+        """Generic post"""
         response: ClientResponse = await self._client.post(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
@@ -127,7 +130,7 @@ class Bridge(BridgeBase):
         return await response.json()
 
     async def async_put(self, path: str, payload: Any) -> Any:
-        """Generic Put"""
+        """Generic put"""
         response: ClientResponse = await self._client.post(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
@@ -136,7 +139,7 @@ class Bridge(BridgeBase):
         return await response.json()
 
     async def async_stop_audio_player(self) -> AudioDeleteResponse:
-        """Stop Audio Player"""
+        """Stop audio player"""
         return AudioDeleteResponse(await self.async_delete("/audio"))
 
     async def async_create_audio_player(
@@ -223,3 +226,19 @@ class Bridge(BridgeBase):
         """Get system information"""
         self._system = System(await self.async_get("/system"))
         return self._system
+
+    async def async_stop_video_player(self) -> VideoDeleteResponse:
+        """Stop video player"""
+        return VideoDeleteResponse(await self.async_delete("/video"))
+
+    async def async_create_video_player(
+        self, payload: VideoPostPayload
+    ) -> VideoPostResponse:
+        """Create video player"""
+        return VideoPostResponse(await self.async_post("/video", payload))
+
+    async def async_update_video(
+        self, id: str, payload: VideoPutPayload
+    ) -> VideoPutResponse:
+        """Update video"""
+        return VideoPutResponse(await self.async_post(f"/video/{id}", payload))
