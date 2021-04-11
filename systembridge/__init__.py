@@ -1,10 +1,13 @@
 """Bridge: Init"""
 from systembridge.objects.open.payload import OpenPayload
 from aiohttp import ClientResponse
-from typing import Any, List
+from typing import Any, List, Optional
 
 from .client import BridgeClient
 from .objects.audio import Audio
+from .objects.audio.delete import AudioDeleteResponse
+from .objects.audio.post import AudioPostPayload, AudioPostResponse
+from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
@@ -97,16 +100,8 @@ class Bridge(BridgeBase):
     def system(self) -> System:
         return self._system
 
-    async def async_get(self, path: str) -> Any:
-        """Generic Getter"""
-        response: ClientResponse = await self._client.get(
-            f"{self._base_url}{path}",
-            headers={**BASE_HEADERS, "api-key": self._api_key},
-        )
-        return await response.json()
-
-    async def async_post(self, path: str, payload: Any) -> Any:
-        """Generic Getter"""
+    async def async_post(self, path: str, payload: Optional[Any]) -> Any:
+        """Generic Delete"""
         response: ClientResponse = await self._client.post(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
@@ -114,10 +109,52 @@ class Bridge(BridgeBase):
         )
         return await response.json()
 
+    async def async_get(self, path: str) -> Any:
+        """Generic Get"""
+        response: ClientResponse = await self._client.get(
+            f"{self._base_url}{path}",
+            headers={**BASE_HEADERS, "api-key": self._api_key},
+        )
+        return await response.json()
+
+    async def async_post(self, path: str, payload: Any) -> Any:
+        """Generic Post"""
+        response: ClientResponse = await self._client.post(
+            f"{self._base_url}{path}",
+            headers={**BASE_HEADERS, "api-key": self._api_key},
+            json=payload,
+        )
+        return await response.json()
+
+    async def async_put(self, path: str, payload: Any) -> Any:
+        """Generic Put"""
+        response: ClientResponse = await self._client.post(
+            f"{self._base_url}{path}",
+            headers={**BASE_HEADERS, "api-key": self._api_key},
+            json=payload,
+        )
+        return await response.json()
+
+    async def async_stop_audio_player(self) -> AudioDeleteResponse:
+        """Stop Audio Player"""
+        return AudioDeleteResponse(await self.async_delete("/audio"))
+
+    async def async_create_audio_player(
+        self, payload: AudioPostPayload
+    ) -> AudioPostResponse:
+        """Create audio player"""
+        return AudioPostResponse(await self.async_post("/audio", payload))
+
     async def async_get_audio(self) -> List[Audio]:
         """Get audio information"""
         self._audio = [Audio(audio) for audio in await self.async_get("/audio") or []]
         return self._audio
+
+    async def async_update_audio(
+        self, id: str, payload: AudioPutPayload
+    ) -> AudioPutResponse:
+        """Update audio"""
+        return AudioPutResponse(await self.async_post(f"/audio/{id}", payload))
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
