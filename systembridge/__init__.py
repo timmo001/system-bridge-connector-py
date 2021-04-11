@@ -11,6 +11,7 @@ from .objects.bluetooth import Bluetooth
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
+from .objects.display import Display
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
 from .objects.information import Information
@@ -35,6 +36,7 @@ class Bridge(BridgeBase):
         self._battery: Battery = {}
         self._bluetooth: Bluetooth = {}
         self._cpu: Cpu = {}
+        self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
         self._information: Information = {}
@@ -58,6 +60,10 @@ class Bridge(BridgeBase):
     @property
     def cpu(self) -> Cpu:
         return self._cpu
+
+    @property
+    def display(self) -> Display:
+        return self._display
 
     @property
     def filesystem(self) -> Filesystem:
@@ -131,6 +137,11 @@ class Bridge(BridgeBase):
         """Get cpu information"""
         self._cpu = Cpu(await self.async_get("/cpu"))
         return self._cpu
+
+    async def async_get_display(self) -> Cpu:
+        """Get display information"""
+        self._display = Display(await self.async_get("/display"))
+        return self._display
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
