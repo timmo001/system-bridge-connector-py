@@ -237,8 +237,6 @@ class Bridge(BridgeBase):
         """Create video player"""
         return VideoPostResponse(await self.async_post("/video", payload))
 
-    async def async_update_video(
-        self, id: str, payload: VideoPutPayload
-    ) -> VideoPutResponse:
+    async def async_update_video(self, id: str) -> VideoPutResponse:
         """Update video"""
-        return VideoPutResponse(await self.async_post(f"/video/{id}", payload))
+        return VideoPutResponse(await self.async_post(f"/video/{id}"))
