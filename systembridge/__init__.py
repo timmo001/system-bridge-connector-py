@@ -184,7 +184,7 @@ class Bridge(BridgeBase):
         self._display = Display(await self.async_get("/display"))
         return self._display
 
-    async def async_update_audio(
+    async def async_update_display(
         self, id: str, payload: DisplayPutPayload
     ) -> Display:
         """Update display"""
