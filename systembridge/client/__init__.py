@@ -34,7 +34,7 @@ class BridgeClient(BridgeBase):
                 **kwargs,
             )
         if response.status not in (200, 201, 202, 204):
-            if response.status == 401:
+            if response.status in (401, 403):
                 raise BridgeAuthenticationException(
                     {
                         "request": {
