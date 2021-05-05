@@ -34,13 +34,13 @@ class BridgeClient(BridgeBase):
                 **kwargs,
             )
         if response.status not in (200, 201, 202, 204):
+            kwargs
             if response.status in (401, 403):
                 raise BridgeAuthenticationException(
                     {
                         "request": {
                             "method": method,
                             "url": url,
-                            **kwargs,
                         },
                         "response": await response.json(),
                         "status": response.status,
@@ -52,7 +52,6 @@ class BridgeClient(BridgeBase):
                         "request": {
                             "method": method,
                             "url": url,
-                            **kwargs,
                         },
                         "response": await response.json(),
                         "status": response.status,
