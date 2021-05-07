@@ -149,7 +149,7 @@ class Bridge(BridgeBase):
         """Create audio player"""
         return AudioPostResponse(await self.async_post("/audio", payload))
 
-    async def async_get_audio(self) -> List[Audio]:
+    async def async_get_audio(self) -> Audio:
         """Get audio information"""
         self._audio = [Audio(audio) for audio in await self.async_get("/audio") or []]
         return self._audio
