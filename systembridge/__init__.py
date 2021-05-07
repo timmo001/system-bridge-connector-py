@@ -39,7 +39,7 @@ class Bridge(BridgeBase):
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
-        self._audio: List[Audio] = []
+        self._audio: Audio = []
         self._battery: Battery = {}
         self._bluetooth: Bluetooth = {}
         self._cpu: Cpu = {}
@@ -53,7 +53,7 @@ class Bridge(BridgeBase):
         self._system: System = {}
 
     @property
-    def audio(self) -> List[Audio]:
+    def audio(self) -> Audio:
         return self._audio
 
     @property
