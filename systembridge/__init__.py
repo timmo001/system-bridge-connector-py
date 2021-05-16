@@ -5,8 +5,6 @@ from typing import Any, List
 
 from .client import BridgeClient
 from .objects.audio import Audio
-from .objects.audio.delete import AudioDeleteResponse
-from .objects.audio.post import AudioPostPayload, AudioPostResponse
 from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
@@ -21,7 +19,7 @@ from .objects.graphics import Graphics
 from .objects.media import Media
 from .objects.media.delete import MediaDeleteResponse
 from .objects.media.post import MediaPostPayload, MediaPostResponse
-from .objects.media.put import MediaPutResponse
+from .objects.media.put import MediaPutPayload, MediaPutResponse
 from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
@@ -153,16 +151,6 @@ class Bridge(BridgeBase):
             return await response.json()
         return await response.text()
 
-    async def async_stop_audio_player(self) -> AudioDeleteResponse:
-        """Stop audio player"""
-        return AudioDeleteResponse(await self.async_delete("/audio"))
-
-    async def async_create_audio_player(
-        self, payload: AudioPostPayload
-    ) -> AudioPostResponse:
-        """Create audio player"""
-        return AudioPostResponse(await self.async_post("/audio", payload))
-
     async def async_get_audio(self) -> Audio:
         """Get audio information"""
         self._audio = Audio(await self.async_get("/audio"))
@@ -252,9 +240,15 @@ class Bridge(BridgeBase):
         self._settings = [Settings(setting) for setting in settings]
         return self._settings
 
-    async def async_get_setting(self, section: str, key: str) -> List[Settings]:
+    async def async_get_setting(self, section: str, key: str) -> Settings:
         """Get setting"""
         return Settings(await self.async_get(f"/settings/{section}/{key}"))
+
+    async def async_update_setting(
+        self, section: str, key: str, payload: MediaPutPayload
+    ) -> Settings:
+        """Update setting"""
+        return Settings(await self.async_put(f"/settings/{section}/{key}", payload))
 
     async def async_get_system(self) -> System:
         """Get system information"""
@@ -271,6 +265,8 @@ class Bridge(BridgeBase):
         """Create media player"""
         return MediaPostResponse(await self.async_post("/media", payload))
 
-    async def async_update_media(self, id: str) -> MediaPutResponse:
-        """Update media"""
-        return MediaPutResponse(await self.async_post(f"/media/{id}"))
+    async def async_update_media(
+        self, id: str, payload: MediaPutPayload
+    ) -> MediaPutResponse:
+        """Update media player"""
+        return MediaPutResponse(await self.async_put(f"/media/{id}", payload))
