@@ -1,9 +1,9 @@
 """Bridge: Init"""
-from systembridge.objects.open.payload import OpenPayload
 from aiohttp import ClientResponse
 from typing import Any, List, Optional
 
 from .client import BridgeClient
+from .objects.settings import Settings
 from .objects.audio import Audio
 from .objects.audio.delete import AudioDeleteResponse
 from .objects.audio.post import AudioPostPayload, AudioPostResponse
@@ -21,6 +21,7 @@ from .objects.graphics import Graphics
 from .objects.information import Information
 from .objects.memory import Memory
 from .objects.network import Network
+from .objects.open.payload import OpenPayload
 from .objects.os import Os
 from .objects.processes import Processes
 from .objects.system import System
@@ -39,7 +40,7 @@ class Bridge(BridgeBase):
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
-        self._audio: Audio = []
+        self._audio: Audio = {}
         self._battery: Battery = {}
         self._bluetooth: Bluetooth = {}
         self._cpu: Cpu = {}
@@ -50,6 +51,7 @@ class Bridge(BridgeBase):
         self._memory: Memory = {}
         self._os: Os = {}
         self._processes: Processes = {}
+        self._settings: List[Settings] = []
         self._system: System = {}
 
     @property
@@ -99,6 +101,10 @@ class Bridge(BridgeBase):
     @property
     def processes(self) -> Processes:
         return self._processes
+
+    @property
+    def settings(self) -> List[Settings]:
+        return self._settings
 
     @property
     def system(self) -> System:
@@ -151,7 +157,7 @@ class Bridge(BridgeBase):
 
     async def async_get_audio(self) -> Audio:
         """Get audio information"""
-        self._audio = [Audio(audio) for audio in await self.async_get("/audio") or []]
+        self._audio = Audio(await self.async_get("/audio"))
         return self._audio
 
     async def async_update_audio(
@@ -228,6 +234,16 @@ class Bridge(BridgeBase):
         """Get processes information"""
         self._processes = Processes(await self.async_get("/processes"))
         return self._processes
+
+    async def async_get_settings(self) -> List[Settings]:
+        """Get settings"""
+        settings = await self.async_get("/settings")
+        self._settings = [Settings(setting) for setting in settings]
+        return self._settings
+
+    async def async_get_setting(self, section: str, key: str) -> List[Settings]:
+        """Get setting"""
+        return Settings(await self.async_get(f"/settings/{section}/{key}"))
 
     async def async_get_system(self) -> System:
         """Get system information"""
