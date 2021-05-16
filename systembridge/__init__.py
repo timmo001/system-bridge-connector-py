@@ -1,9 +1,9 @@
 """Bridge: Init"""
+from __future__ import annotations
 from aiohttp import ClientResponse
-from typing import Any, List, Optional
+from typing import Any, List
 
 from .client import BridgeClient
-from .objects.settings import Settings
 from .objects.audio import Audio
 from .objects.audio.delete import AudioDeleteResponse
 from .objects.audio.post import AudioPostPayload, AudioPostResponse
@@ -18,15 +18,17 @@ from .objects.display import Display
 from .objects.display.put import DisplayPutPayload
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
+from .objects.media import Media
+from .objects.media.delete import MediaDeleteResponse
+from .objects.media.post import MediaPostPayload, MediaPostResponse
+from .objects.media.put import MediaPutResponse
 from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
 from .objects.os import Os
 from .objects.processes import Processes
+from .objects.settings import Settings
 from .objects.system import System
-from .objects.video.delete import VideoDeleteResponse
-from .objects.video.post import VideoPostPayload, VideoPostResponse
-from .objects.video.put import VideoPutResponse
 
 BASE_HEADERS = {"Accept": "application/json"}
 
@@ -46,6 +48,7 @@ class Bridge(BridgeBase):
         self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
+        self._media: Media = {}
         self._memory: Memory = {}
         self._network: Network = {}
         self._os: Os = {}
@@ -82,6 +85,10 @@ class Bridge(BridgeBase):
         return self._graphics
 
     @property
+    def media(self) -> Media:
+        return self._media
+
+    @property
     def memory(self) -> Memory:
         return self._memory
 
@@ -105,7 +112,7 @@ class Bridge(BridgeBase):
     def system(self) -> System:
         return self._system
 
-    async def async_post(self, path: str, payload: Optional[Any]) -> Any:
+    async def async_post(self, path: str, payload: Any | None) -> Any:
         """Generic Delete"""
         response: ClientResponse = await self._client.post(
             f"{self._base_url}{path}",
@@ -120,7 +127,9 @@ class Bridge(BridgeBase):
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
         )
-        return await response.json()
+        if "application/json" in response.headers.get("Content-Type", ""):
+            return await response.json()
+        return await response.text()
 
     async def async_post(self, path: str, payload: Any) -> Any:
         """Generic post"""
@@ -129,7 +138,9 @@ class Bridge(BridgeBase):
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
         )
-        return await response.json()
+        if "application/json" in response.headers.get("Content-Type", ""):
+            return await response.json()
+        return await response.text()
 
     async def async_put(self, path: str, payload: Any) -> Any:
         """Generic put"""
@@ -138,7 +149,9 @@ class Bridge(BridgeBase):
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
         )
-        return await response.json()
+        if "application/json" in response.headers.get("Content-Type", ""):
+            return await response.json()
+        return await response.text()
 
     async def async_stop_audio_player(self) -> AudioDeleteResponse:
         """Stop audio player"""
@@ -201,6 +214,14 @@ class Bridge(BridgeBase):
         self._graphics = Graphics(await self.async_get("/graphics"))
         return self._graphics
 
+    async def async_get_media(self) -> Media | None:
+        """Get media information"""
+        media = await self.async_get("/media")
+        if media is None:
+            return None
+        self._media = Media(media)
+        return self._media
+
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
         self._memory = Memory(await self.async_get("/memory"))
@@ -240,16 +261,16 @@ class Bridge(BridgeBase):
         self._system = System(await self.async_get("/system"))
         return self._system
 
-    async def async_stop_video_player(self) -> VideoDeleteResponse:
-        """Stop video player"""
-        return VideoDeleteResponse(await self.async_delete("/video"))
+    async def async_stop_media_player(self) -> MediaDeleteResponse:
+        """Stop media player"""
+        return MediaDeleteResponse(await self.async_delete("/media"))
 
-    async def async_create_video_player(
-        self, payload: VideoPostPayload
-    ) -> VideoPostResponse:
-        """Create video player"""
-        return VideoPostResponse(await self.async_post("/video", payload))
+    async def async_create_media_player(
+        self, payload: MediaPostPayload
+    ) -> MediaPostResponse:
+        """Create media player"""
+        return MediaPostResponse(await self.async_post("/media", payload))
 
-    async def async_update_video(self, id: str) -> VideoPutResponse:
-        """Update video"""
-        return VideoPutResponse(await self.async_post(f"/video/{id}"))
+    async def async_update_media(self, id: str) -> MediaPutResponse:
+        """Update media"""
+        return MediaPutResponse(await self.async_post(f"/media/{id}"))
