@@ -1,8 +1,10 @@
 """Test class for System Bridge"""
+from __future__ import annotations
+from systembridge.objects.events import Event
+from aiohttp.client import ClientSession
+
 import asyncio
 import async_timeout
-
-from aiohttp.client import ClientSession
 
 from systembridge import Bridge
 from systembridge.client import BridgeClient
@@ -12,7 +14,7 @@ PORT = 9170
 API_KEY = ""
 
 
-async def get_data() -> Bridge:
+async def get_data() -> tuple[BridgeClient, int]:
     async with ClientSession() as session:
         client = Bridge(
             BridgeClient(session),
@@ -38,12 +40,15 @@ async def get_data() -> Bridge:
                     client.async_get_system(),
                 ]
             )
-            # print((await client.async_get_setting("network", "wsPort")).value)
-        return client
+        return client, (await client.async_get_setting("network", "wsPort")).value
+
+
+async def print_event(event: Event):
+    print(event)
 
 
 async def main():
-    client = await get_data()
+    client, wsPort = await get_data()
 
     print()
     print("Results")
@@ -93,6 +98,14 @@ async def main():
     # print()
     print(client.system)
     # print(client.system.__dict__)
+
+    print()
+    print("WebSocket")
+    print()
+
+    await client.async_connect_websocket(HOST, wsPort)
+    await client.async_send_event("test", "text")
+    await client.listen_for_events(print_event)
 
 
 asyncio.run(main())

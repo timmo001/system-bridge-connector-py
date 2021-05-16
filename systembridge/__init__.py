@@ -1,9 +1,11 @@
 """Bridge: Init"""
 from __future__ import annotations
+from systembridge.objects.events import Event, EventBase
 from aiohttp import ClientResponse
 from typing import Any, List
 
 from .client import BridgeClient
+from .client_websocket import BridgeClientWebSocket
 from .objects.audio import Audio
 from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
@@ -53,6 +55,7 @@ class Bridge(BridgeBase):
         self._processes: Processes = {}
         self._settings: List[Settings] = []
         self._system: System = {}
+        self._websocket_client: BridgeClientWebSocket = None
 
     @property
     def audio(self) -> Audio:
@@ -142,7 +145,7 @@ class Bridge(BridgeBase):
 
     async def async_put(self, path: str, payload: Any) -> Any:
         """Generic put"""
-        response: ClientResponse = await self._client.post(
+        response: ClientResponse = await self._client.put(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
@@ -160,7 +163,7 @@ class Bridge(BridgeBase):
         self, id: str, payload: AudioPutPayload
     ) -> AudioPutResponse:
         """Update audio"""
-        return AudioPutResponse(await self.async_post(f"/audio/{id}", payload))
+        return AudioPutResponse(await self.async_put(f"/audio/{id}", payload))
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
@@ -190,7 +193,7 @@ class Bridge(BridgeBase):
         self, id: str, payload: DisplayPutPayload
     ) -> Display:
         """Update display"""
-        return AudioPutResponse(await self.async_post(f"/display/{id}", payload))
+        return AudioPutResponse(await self.async_put(f"/display/{id}", payload))
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
@@ -270,3 +273,20 @@ class Bridge(BridgeBase):
     ) -> MediaPutResponse:
         """Update media player"""
         return MediaPutResponse(await self.async_put(f"/media/{id}", payload))
+
+    async def async_connect_websocket(self, host: str, port: int) -> None:
+        self._websocket_client: BridgeClientWebSocket = BridgeClientWebSocket(
+            self._api_key
+        )
+        await self._websocket_client.connect(f"ws://{host}:{port}")
+        await self._websocket_client.authenticate()
+
+    async def async_send_event(self, event: str, data: Event) -> None:
+        await self._websocket_client.send_event(event, data)
+
+    async def listen_for_events(self, callback: function) -> None:
+        async def handle_message(message: EventBase) -> None:
+            if "data" in message and type(message["data"]) is dict:
+                await callback(message["data"])
+
+        await self._websocket_client.listen_for_messages(handle_message)
