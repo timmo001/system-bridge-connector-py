@@ -65,8 +65,8 @@ class AudioDevice(BridgeBase):
 class Audio(BridgeBase):
     @property
     def current(self) -> AudioSettings:
-        return self.attributes.get("current", "")
+        return self.attributes.get("current", {})
 
     @property
     def devices(self) -> List[AudioDevice]:
-        return self.attributes.get("devices", "")
+        return self.attributes.get("devices", [])
