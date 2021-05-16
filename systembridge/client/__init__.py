@@ -27,9 +27,7 @@ class BridgeClient(BridgeBase):
         """Make a PUT request."""
         return await self.request("PUT", url, **kwargs)
 
-    async def request(
-        self, method: str, url: str, **kwargs
-    ) -> ClientResponse:
+    async def request(self, method: str, url: str, **kwargs) -> ClientResponse:
         """Make a request."""
         async with async_timeout.timeout(20, loop=get_event_loop()):
             response: ClientResponse = await self._session.request(
