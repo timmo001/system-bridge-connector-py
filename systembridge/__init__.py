@@ -145,7 +145,7 @@ class Bridge(BridgeBase):
 
     async def async_put(self, path: str, payload: Any) -> Any:
         """Generic put"""
-        response: ClientResponse = await self._client.post(
+        response: ClientResponse = await self._client.put(
             f"{self._base_url}{path}",
             headers={**BASE_HEADERS, "api-key": self._api_key},
             json=payload,
@@ -163,7 +163,7 @@ class Bridge(BridgeBase):
         self, id: str, payload: AudioPutPayload
     ) -> AudioPutResponse:
         """Update audio"""
-        return AudioPutResponse(await self.async_post(f"/audio/{id}", payload))
+        return AudioPutResponse(await self.async_put(f"/audio/{id}", payload))
 
     async def async_get_battery(self) -> Battery:
         """Get battery information"""
@@ -193,7 +193,7 @@ class Bridge(BridgeBase):
         self, id: str, payload: DisplayPutPayload
     ) -> Display:
         """Update display"""
-        return AudioPutResponse(await self.async_post(f"/display/{id}", payload))
+        return AudioPutResponse(await self.async_put(f"/display/{id}", payload))
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""

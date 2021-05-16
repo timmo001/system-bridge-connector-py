@@ -23,6 +23,10 @@ class BridgeClient(BridgeBase):
         """Make a POST request."""
         return await self.request("POST", url, **kwargs)
 
+    async def put(self, url: str, **kwargs) -> ClientResponse:
+        """Make a PUT request."""
+        return await self.request("PUT", url, **kwargs)
+
     async def request(
         self, method: str, url: str, **kwargs
     ) -> ClientResponse:
