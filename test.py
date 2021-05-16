@@ -45,6 +45,7 @@ async def get_data() -> Bridge:
 async def main():
     client = await get_data()
 
+    print()
     print("Results")
     print()
     print(client.audio)
