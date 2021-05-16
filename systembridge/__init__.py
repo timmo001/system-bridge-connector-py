@@ -287,6 +287,7 @@ class Bridge(BridgeBase):
     async def listen_for_events(self, callback: function) -> None:
         async def handle_message(message: EventBase) -> None:
             if "data" in message and type(message["data"]) is dict:
-                await callback(message["data"])
+                event = Event(message["data"])
+                await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
