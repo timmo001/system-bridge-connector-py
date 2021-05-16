@@ -29,6 +29,7 @@ async def get_data() -> Bridge:
                     client.async_get_display(),
                     client.async_get_filesystem(),
                     client.async_get_graphics(),
+                    client.async_get_media(),
                     client.async_get_memory(),
                     client.async_get_network(),
                     client.async_get_os(),
@@ -66,6 +67,9 @@ async def main():
     # print()
     print(client.graphics)
     # print(client.graphics.__dict__)
+    # print()
+    print(client.media)
+    # print(client.media.__dict__)
     # print()
     print(client.memory)
     # print(client.memory.__dict__)

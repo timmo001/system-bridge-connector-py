@@ -1,12 +1,15 @@
 """
-Class object for VideoPostPayload and VideoPostResponse
+Class object for MediaPostPayload and MediaPostResponse
 Documentation: https://system-bridge.timmo.dev
 """
 from typing import Optional
 from ..base import BridgeBase
 
 
-class VideoPostPayload(BridgeBase):
+class MediaPostPayload(BridgeBase):
+    def type(self) -> str:
+        return self.attributes.get("type")
+
     @property
     def backgroundColor(self) -> Optional[str]:
         return self.attributes.get("backgroundColor", "")
@@ -40,10 +43,7 @@ class VideoPostPayload(BridgeBase):
         return self.attributes.get("y", 0.0)
 
 
-class VideoPostResponse(VideoPostPayload):
-    def type(self) -> str:
-        return self.attributes.get("type", "video")
-
+class MediaPostResponse(MediaPostPayload):
     @property
     def url(self) -> str:
         return self.attributes.get("url", "")
