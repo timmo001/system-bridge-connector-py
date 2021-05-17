@@ -14,13 +14,32 @@ PORT = 9170
 API_KEY = ""
 
 
-async def get_data() -> tuple[BridgeClient, int]:
+async def main() -> None:
     async with ClientSession() as session:
         client = Bridge(
             BridgeClient(session),
             f"http://{HOST}:{PORT}",
             API_KEY,
         )
+
+        async def handle_event(event: Event):
+            if event.name == "player-status":
+                print(
+                    "Media Status:",
+                    client._media_status_last_updated,
+                    client._media_status.__dict__,
+                )
+            elif event.name == "player-cover-ready":
+                print("Media Cover [:20]:", client.media_cover[:20])
+            else:
+                print("Unused Event:", event.__dict__)
+
+        await client.async_connect_websocket(
+            HOST, (await client.async_get_setting("network", "wsPort")).value
+        )
+        await client.async_send_event("test", "text")
+        asyncio.ensure_future(client.listen_for_events(handle_event))
+
         async with async_timeout.timeout(60):
             await asyncio.gather(
                 *[
@@ -40,72 +59,57 @@ async def get_data() -> tuple[BridgeClient, int]:
                     client.async_get_system(),
                 ]
             )
-        return client, (await client.async_get_setting("network", "wsPort")).value
+        print()
+        print("Results")
+        print()
+        print(client.audio)
+        # print(client.audio.__dict__)
+        # print()
+        print(client.bluetooth)
+        # print(client.bluetooth.__dict__)
+        # print()
+        print(client.battery)
+        # print(client.battery.__dict__)
+        # print()
+        print(client.cpu)
+        # print(client.cpu.__dict__)
+        # print()
+        print(client.display)
+        # print(client.display.__dict__)
+        # print()
+        print(client.filesystem)
+        # print(client.filesystem.__dict__)
+        # print()
+        print(client.graphics)
+        # print(client.graphics.__dict__)
+        # print()
+        print(client.media)
+        # print(client.media.__dict__)
+        # print()
+        print(client.memory)
+        # print(client.memory.__dict__)
+        # print()
+        print(client.network)
+        # print(client.network.__dict__)
+        # print()
+        print(client.os)
+        # print(client.os.__dict__)
+        # print()
+        print(client.processes)
+        # print(client.processes.__dict__)
+        # print()
+        print(client.settings)
+        # for setting in client.settings:
+        #     print(setting.__dict__)
+        #     print(setting.key)
+        #     print(setting.name)
+        #     print(setting.value)
+        # print()
+        print(client.system)
+        # print(client.system.__dict__)
 
-
-async def print_event(event: Event):
-    print(event)
-
-
-async def main():
-    client, wsPort = await get_data()
-
-    print()
-    print("Results")
-    print()
-    print(client.audio)
-    # print(client.audio.__dict__)
-    # print()
-    print(client.bluetooth)
-    # print(client.bluetooth.__dict__)
-    # print()
-    print(client.battery)
-    # print(client.battery.__dict__)
-    # print()
-    print(client.cpu)
-    # print(client.cpu.__dict__)
-    # print()
-    print(client.display)
-    # print(client.display.__dict__)
-    # print()
-    print(client.filesystem)
-    # print(client.filesystem.__dict__)
-    # print()
-    print(client.graphics)
-    # print(client.graphics.__dict__)
-    # print()
-    print(client.media)
-    # print(client.media.__dict__)
-    # print()
-    print(client.memory)
-    # print(client.memory.__dict__)
-    # print()
-    print(client.network)
-    # print(client.network.__dict__)
-    # print()
-    print(client.os)
-    # print(client.os.__dict__)
-    # print()
-    print(client.processes)
-    # print(client.processes.__dict__)
-    # print()
-    print(client.settings)
-    # for setting in client.settings:
-    #     print(setting.__dict__)
-    #     print(setting.key)
-    #     print(setting.name)
-    #     print(setting.value)
-    # print()
-    print(client.system)
-    # print(client.system.__dict__)
-
-    print()
-    print("WebSocket")
-    print()
-
-    await client.async_connect_websocket(HOST, wsPort)
-    await client.async_send_event("test", "text")
-    await client.listen_for_events(print_event)
+        while True:
+            await asyncio.sleep(1)
 
 
 asyncio.run(main())

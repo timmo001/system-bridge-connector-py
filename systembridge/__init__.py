@@ -1,7 +1,7 @@
 """Bridge: Init"""
 from __future__ import annotations
-from systembridge.objects.events import Event, EventBase
 from aiohttp import ClientResponse
+from datetime import datetime, timezone
 from typing import Any, List
 
 from .client import BridgeClient
@@ -16,9 +16,10 @@ from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.display import Display
 from .objects.display.put import DisplayPutPayload
+from .objects.events import Event, EventBase
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
-from .objects.media import Media
+from .objects.media import Media, Source
 from .objects.media.delete import MediaDeleteResponse
 from .objects.media.post import MediaPostPayload, MediaPostResponse
 from .objects.media.put import MediaPutPayload, MediaPutResponse
@@ -48,6 +49,9 @@ class Bridge(BridgeBase):
         self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
+        self._media_cover: str | None = None
+        self._media_status_last_updated: datetime | None = None
+        self._media_status: Media | None = None
         self._media: Media = {}
         self._memory: Memory = {}
         self._network: Network = {}
@@ -84,6 +88,22 @@ class Bridge(BridgeBase):
     @property
     def graphics(self) -> Graphics:
         return self._graphics
+
+    @property
+    def media_cover(self) -> str | None:
+        return self._media_cover
+
+    @property
+    def media_source(self) -> Source:
+        return self._media_source
+
+    @property
+    def media_status(self) -> Media | None:
+        return self._media_status
+
+    @property
+    def media_status_last_updated(self) -> datetime:
+        return self._media_status_last_updated
 
     @property
     def media(self) -> Media:
@@ -213,6 +233,22 @@ class Bridge(BridgeBase):
         self._media = Media(media)
         return self._media
 
+    async def async_get_media_cover(self) -> Media | None:
+        """Get media cover"""
+        cover = await self.async_get("/media/cover")
+        if cover is None:
+            return None
+        self._media_cover = cover
+        return self._media_cover
+
+    async def async_get_media_source(self) -> Media | None:
+        """Get media cover"""
+        source = await self.async_get("/media/source")
+        if source is None:
+            return None
+        self._media_source = Source(source)
+        return self._media_source
+
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
         self._memory = Memory(await self.async_get("/memory"))
@@ -288,6 +324,11 @@ class Bridge(BridgeBase):
         async def handle_message(message: EventBase) -> None:
             if "data" in message and type(message["data"]) is dict:
                 event = Event(message["data"])
+                if event.name == "player-status":
+                    self._media_status = Media(event.data)
+                    self._media_status_last_updated = datetime.now(timezone.utc)
+                if event.name == "player-cover-ready":
+                    await self.async_get_media_cover()
                 await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
