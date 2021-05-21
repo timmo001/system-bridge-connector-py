@@ -49,7 +49,6 @@ class Bridge(BridgeBase):
         self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
-        self._media_cover: str | None = None
         self._media_status_last_updated: datetime | None = None
         self._media_status: Media | None = None
         self._media: Media = {}
@@ -68,6 +67,10 @@ class Bridge(BridgeBase):
     @property
     def battery(self) -> Battery:
         return self._battery
+
+    @property
+    def base_url(self) -> str:
+        return self._base_url
 
     @property
     def bluetooth(self) -> Bluetooth:
@@ -90,8 +93,10 @@ class Bridge(BridgeBase):
         return self._graphics
 
     @property
-    def media_cover(self) -> str | None:
-        return self._media_cover
+    def media_cover_url(self) -> str | None:
+        if self.media_status is None:
+            return None
+        return f"{self.base_url}/media/cover.png"
 
     @property
     def media_source(self) -> Source:
@@ -233,16 +238,8 @@ class Bridge(BridgeBase):
         self._media = Media(media)
         return self._media
 
-    async def async_get_media_cover(self) -> Media | None:
-        """Get media cover"""
-        cover = await self.async_get("/media/cover")
-        if cover is None:
-            return None
-        self._media_cover = cover
-        return self._media_cover
-
     async def async_get_media_source(self) -> Media | None:
-        """Get media cover"""
+        """Get media source"""
         source = await self.async_get("/media/source")
         if source is None:
             return None
@@ -325,10 +322,10 @@ class Bridge(BridgeBase):
             if "data" in message and type(message["data"]) is dict:
                 event = Event(message["data"])
                 if event.name == "player-status":
+                    if event.data is None:
+                        self._media_status = None
                     self._media_status = Media(event.data)
                     self._media_status_last_updated = datetime.now(timezone.utc)
-                if event.name == "player-cover-ready":
-                    await self.async_get_media_cover()
                 await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
