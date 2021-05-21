@@ -27,10 +27,11 @@ async def main() -> None:
                 print(
                     "Media Status:",
                     client._media_status_last_updated,
+                    client._media_status,
                     client._media_status.__dict__,
                 )
             elif event.name == "player-cover-ready":
-                print("Media Cover [:20]:", client.media_cover[:20])
+                print("Media Cover:", client.media_cover_url)
             else:
                 print("Unused Event:", event.__dict__)
 
