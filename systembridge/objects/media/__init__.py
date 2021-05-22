@@ -34,6 +34,14 @@ class Source(BridgeBase):
 
 class Media(BridgeBase):
     @property
+    def duration(self) -> float | None:
+        return self.attributes.get("duration")
+
+    @property
+    def has_cover(self) -> bool | None:
+        return self.attributes.get("hasCover")
+
+    @property
     def muted(self) -> bool | None:
         return self.attributes.get("muted")
 
@@ -42,17 +50,13 @@ class Media(BridgeBase):
         return self.attributes.get("playing")
 
     @property
-    def volume(self) -> float | None:
-        return self.attributes.get("volume")
-
-    @property
-    def duration(self) -> float | None:
-        return self.attributes.get("duration")
-
-    @property
     def position(self) -> float | None:
         return self.attributes.get("position")
 
     @property
     def source(self) -> Source | None:
         return self.attributes.get("source")
+
+    @property
+    def volume(self) -> float | None:
+        return self.attributes.get("volume")
