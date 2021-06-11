@@ -16,5 +16,5 @@ setup(
     license="MIT",
     url="https://github.com/timmo001/system-bridge-connector-py",
     packages=find_packages(exclude=["tests", "generator"]),
-    install_requires=["aiohttp>=3.7.3", "websockets>=9.1,<10"],
+    install_requires=["aiohttp>=3.7.4,<4", "websockets>=9.1,<10"],
 )
