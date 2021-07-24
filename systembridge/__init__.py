@@ -88,12 +88,6 @@ class Bridge(BridgeBase):
         return self._graphics
 
     @property
-    def media_cover_url(self) -> str | None:
-        if self.media_status is None:
-            return None
-        return f"{self.base_url}/media/cover.png"
-
-    @property
     def memory(self) -> Memory:
         return self._memory
 
