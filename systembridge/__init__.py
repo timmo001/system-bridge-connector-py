@@ -19,6 +19,8 @@ from .objects.display.put import DisplayPutPayload
 from .objects.events import Event, EventBase
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
+from .objects.keyboard.payload import KeyboardPayload
+from .objects.keyboard.response import KeyboardResponse
 from .objects.media import Media, Source
 from .objects.media.delete import MediaDeleteResponse
 from .objects.media.post import MediaPostPayload, MediaPostResponse
@@ -311,6 +313,10 @@ class Bridge(BridgeBase):
     ) -> MediaPutResponse:
         """Update media player"""
         return MediaPutResponse(await self.async_put(f"/media/{id}", payload))
+
+    async def async_send_keypress(self, payload: KeyboardPayload) -> KeyboardResponse:
+        """Send keypress"""
+        return KeyboardResponse(await self.async_post("/keyboard", payload))
 
     async def async_connect_websocket(self, host: str, port: int) -> None:
         self._websocket_client: BridgeClientWebSocket = BridgeClientWebSocket(
