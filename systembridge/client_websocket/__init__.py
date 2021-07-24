@@ -42,7 +42,7 @@ class BridgeClientWebSocket(BridgeBase):
         except InvalidHandshake as e:
             raise BridgeException from e
 
-    async def disconnect(self) -> None:
+    async def close(self) -> None:
         if self._websocket is not None:
             await self._websocket.close()
             self._websocket = None
