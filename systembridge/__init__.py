@@ -27,7 +27,7 @@ from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
 from .objects.os import Os
-from .objects.processes import Processes
+from .objects.processes import ProcessList, Processes
 from .objects.settings import Settings
 from .objects.system import System
 
@@ -268,6 +268,11 @@ class Bridge(BridgeBase):
     async def async_get_processes(self) -> Processes:
         """Get processes information"""
         self._processes = Processes(await self.async_get("/processes"))
+        return self._processes
+
+    async def async_get_process(self, name: str) -> Processes:
+        """Get process from name"""
+        self._processes = ProcessList(await self.async_get(f"/processes/{name}"))
         return self._processes
 
     async def async_get_settings(self) -> List[Settings]:
