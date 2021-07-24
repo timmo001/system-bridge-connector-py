@@ -282,6 +282,36 @@ class Bridge(BridgeBase):
         async def handle_message(message: EventBase) -> None:
             if "data" in message and type(message["data"]) is dict:
                 event = Event(message["data"])
+                if "data-" in event.name:
+                    name = event.name.replace("data-", "")
+                    if name == "audio":
+                        self._audio = Audio(event.data)
+                    elif name == "battery":
+                        self._battery = Battery(event.data)
+                    elif name == "bluetooth":
+                        self._bluetooth = Bluetooth(event.data)
+                    elif name == "cpu":
+                        self._cpu = Cpu(event.data)
+                    elif name == "display":
+                        self._display = Display(event.data)
+                    elif name == "filesystem":
+                        self._filesystem = Filesystem(event.data)
+                    elif name == "graphics":
+                        self._graphics = Graphics(event.data)
+                    elif name == "information":
+                        self._information = Information(event.data)
+                    elif name == "memory":
+                        self._memory = Memory(event.data)
+                    elif name == "network":
+                        self._network = Network(event.data)
+                    elif name == "os":
+                        self._os = Os(event.data)
+                    elif name == "processes":
+                        self._processes = Processes(event.data)
+                    elif name == "settings":
+                        self._settings = [Settings(setting) for setting in event.data]
+                    elif name == "system":
+                        self._system = System(event.data)
                 await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
