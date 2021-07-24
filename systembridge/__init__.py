@@ -117,6 +117,11 @@ class Bridge(BridgeBase):
     def system(self) -> System:
         return self._system
 
+    @property
+    def websocket_connected(self) -> bool:
+        """Check if the websocket is connected"""
+        return self._websocket_client is not None and self._websocket_client.connected
+
     async def async_post(self, path: str, payload: Any | None) -> Any:
         """Generic Delete"""
         response: ClientResponse = await self._client.post(
@@ -274,6 +279,10 @@ class Bridge(BridgeBase):
         )
         await self._websocket_client.connect(f"ws://{host}:{port}")
         await self._websocket_client.register_listener()
+
+    async def async_disconnect_websocket(self) -> None:
+        if self._websocket_client is not None:
+            await self._websocket_client.disconnect
 
     async def async_send_event(self, event: str, data: Event) -> None:
         await self._websocket_client.send_event(event, data)
