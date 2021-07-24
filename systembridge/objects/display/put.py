@@ -2,6 +2,8 @@
 Class object for DisplayPutPayload
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+
 from typing import Union
 
 from ..base import BridgeBase

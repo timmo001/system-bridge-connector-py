@@ -8,4 +8,4 @@ from ..base import BridgeBase
 class OpenPayload(BridgeBase):
     @property
     def path(self) -> str:
-        return self.attributes.get("path", "")
+        return self.attributes.get("path")

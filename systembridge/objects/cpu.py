@@ -2,164 +2,180 @@
 Class object for Cpu
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+
+from typing import List
+
 from .base import BridgeBase
 
 
 class Cache(BridgeBase):
     @property
-    def l1d(self):
-        return self.attributes.get("l1d", None)
+    def l1d(self) -> int | None:
+        return self.attributes.get("l1d")
 
     @property
-    def l1i(self):
-        return self.attributes.get("l1i", None)
+    def l1i(self) -> int | None:
+        return self.attributes.get("l1i")
 
     @property
-    def l2(self):
-        return self.attributes.get("l2", None)
+    def l2(self) -> int | None:
+        return self.attributes.get("l2")
 
     @property
-    def l3(self):
-        return self.attributes.get("l3", None)
+    def l3(self) -> int | None:
+        return self.attributes.get("l3")
 
 
 class CpuCache(BridgeBase):
     @property
-    def l1d(self):
-        return self.attributes.get("l1d", None)
+    def l1d(self) -> int | None:
+        return self.attributes.get("l1d")
 
     @property
-    def l1i(self):
-        return self.attributes.get("l1i", None)
+    def l1i(self) -> int | None:
+        return self.attributes.get("l1i")
 
     @property
-    def l2(self):
-        return self.attributes.get("l2", None)
+    def l2(self) -> int | None:
+        return self.attributes.get("l2")
 
     @property
-    def l3(self):
-        return self.attributes.get("l3", None)
+    def l3(self) -> int | None:
+        return self.attributes.get("l3")
 
 
 class CpuInner(BridgeBase):
     @property
-    def manufacturer(self):
-        return self.attributes.get("manufacturer", "")
+    def manufacturer(self) -> str | None:
+        return self.attributes.get("manufacturer")
 
     @property
-    def brand(self):
-        return self.attributes.get("brand", "")
+    def brand(self) -> str | None:
+        return self.attributes.get("brand")
 
     @property
-    def vendor(self):
-        return self.attributes.get("vendor", "")
+    def vendor(self) -> str | None:
+        return self.attributes.get("vendor")
 
     @property
-    def family(self):
-        return self.attributes.get("family", "")
+    def family(self) -> str | None:
+        return self.attributes.get("family")
 
     @property
-    def model(self):
-        return self.attributes.get("model", "")
+    def model(self) -> str | None:
+        return self.attributes.get("model")
 
     @property
-    def stepping(self):
-        return self.attributes.get("stepping", "")
+    def stepping(self) -> str | None:
+        return self.attributes.get("stepping")
 
     @property
-    def revision(self):
-        return self.attributes.get("revision", "")
+    def revision(self) -> str | None:
+        return self.attributes.get("revision")
 
     @property
-    def voltage(self):
-        return self.attributes.get("voltage", "")
+    def voltage(self) -> str | None:
+        return self.attributes.get("voltage")
 
     @property
-    def speed(self):
-        return self.attributes.get("speed", None)
+    def speed(self) -> float | None:
+        return self.attributes.get("speed")
 
     @property
-    def speedMin(self):
-        return self.attributes.get("speedMin", None)
+    def speedMin(self) -> float | None:
+        return self.attributes.get("speedMin")
 
     @property
-    def speedMax(self):
-        return self.attributes.get("speedMax", None)
+    def speedMax(self) -> float | None:
+        return self.attributes.get("speedMax")
 
     @property
-    def governor(self):
-        return self.attributes.get("governor", "")
+    def governor(self) -> str | None:
+        return self.attributes.get("governor")
 
     @property
-    def cores(self):
-        return self.attributes.get("cores", None)
+    def cores(self) -> int | None:
+        return self.attributes.get("cores")
 
     @property
-    def physicalCores(self):
-        return self.attributes.get("physicalCores", None)
+    def physicalCores(self) -> int | None:
+        return self.attributes.get("physicalCores")
 
     @property
-    def processors(self):
-        return self.attributes.get("processors", None)
+    def processors(self) -> int | None:
+        return self.attributes.get("processors")
 
     @property
-    def socket(self):
-        return self.attributes.get("socket", "")
+    def socket(self) -> str | None:
+        return self.attributes.get("socket")
 
     @property
-    def flags(self):
-        return self.attributes.get("flags", "")
+    def flags(self) -> str | None:
+        return self.attributes.get("flags")
 
     @property
-    def virtualization(self):
-        return self.attributes.get("virtualization", False)
+    def virtualization(self) -> bool | None:
+        return self.attributes.get("virtualization")
 
     @property
-    def cache(self):
-        return CpuCache(self.attributes.get("cache", {}))
+    def cache(self) -> CpuCache | None:
+        return CpuCache(self.attributes.get("cache"))
 
 
 class CurrentSpeed(BridgeBase):
     @property
-    def min(self):
-        return self.attributes.get("min", None)
+    def min(self) -> float | None:
+        return self.attributes.get("min")
 
     @property
-    def max(self):
-        return self.attributes.get("max", None)
+    def max(self) -> float | None:
+        return self.attributes.get("max")
 
     @property
-    def avg(self):
-        return self.attributes.get("avg", None)
+    def avg(self) -> float | None:
+        return self.attributes.get("avg")
 
     @property
-    def cores(self):
-        return self.attributes.get("cores", None)
+    def cores(self) -> List[float] | None:
+        return self.attributes.get("cores")
 
 
 class Temperature(BridgeBase):
     @property
-    def main(self):
-        return self.attributes.get("main", None)
+    def main(self) -> float | int | None:
+        return self.attributes.get("main")
 
     @property
-    def max(self):
-        return self.attributes.get("max", None)
+    def cores(self) -> List[float | int] | None:
+        return self.attributes.get("cores")
+
+    @property
+    def max(self) -> float | int | None:
+        return self.attributes.get("max")
+
+    @property
+    def socket(self) -> List[float | int] | None:
+        return self.attributes.get("socket")
+
+    @property
+    def chipset(self) -> float | int | None:
+        return self.attributes.get("chipset")
 
 
 class Cpu(BridgeBase):
     @property
-    def cache(self):
-        return Cache(self.attributes.get("cache", {}))
+    def cache(self) -> Cache | None:
+        return Cache(self.attributes.get("cache"))
 
     @property
-    def cpu(self):
-        return CpuInner(self.attributes.get("cpu", {}))
+    def cpu(self) -> CpuInner | None:
+        return CpuInner(self.attributes.get("cpu"))
 
     @property
-    def currentSpeed(self):
-        return CurrentSpeed(self.attributes.get("currentSpeed", {}))
+    def currentSpeed(self) -> CurrentSpeed | None:
+        return CurrentSpeed(self.attributes.get("currentSpeed"))
 
     @property
-    def temperature(self):
-        return Temperature(self.attributes.get("temperature", {}))
+    def temperature(self) -> Temperature | None:
+        return Temperature(self.attributes.get("temperature"))

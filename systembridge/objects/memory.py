@@ -2,108 +2,111 @@
 Class object for Memory
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+from typing import List
+
 from .base import BridgeBase
 
 
 class Layout(BridgeBase):
     @property
-    def size(self):
-        return self.attributes.get("size", None)
+    def size(self) -> int | None:
+        return self.attributes.get("size")
 
     @property
-    def bank(self):
-        return self.attributes.get("bank", "")
+    def bank(self) -> str | None:
+        return self.attributes.get("bank")
 
     @property
-    def type(self):
-        return self.attributes.get("type", "")
+    def type(self) -> str | None:
+        return self.attributes.get("type")
 
     @property
-    def ecc(self):
-        return self.attributes.get("ecc", False)
+    def ecc(self) -> bool | None:
+        return self.attributes.get("ecc")
 
     @property
-    def clockSpeed(self):
-        return self.attributes.get("clockSpeed", None)
+    def clockSpeed(self) -> float | int | None:
+        return self.attributes.get("clockSpeed")
 
     @property
-    def formFactor(self):
-        return self.attributes.get("formFactor", "")
+    def formFactor(self) -> str | None:
+        return self.attributes.get("formFactor")
 
     @property
-    def manufacturer(self):
-        return self.attributes.get("manufacturer", "")
+    def manufacturer(self) -> str | None:
+        return self.attributes.get("manufacturer")
 
     @property
-    def partNum(self):
-        return self.attributes.get("partNum", "")
+    def partNum(self) -> str | None:
+        return self.attributes.get("partNum")
 
     @property
-    def serialNum(self):
-        return self.attributes.get("serialNum", "")
+    def serialNum(self) -> str | None:
+        return self.attributes.get("serialNum")
 
     @property
-    def voltageConfigured(self):
-        return self.attributes.get("voltageConfigured", None)
+    def voltageConfigured(self) -> float | None:
+        return self.attributes.get("voltageConfigured")
 
     @property
-    def voltageMin(self):
-        return self.attributes.get("voltageMin", None)
+    def voltageMin(self) -> float | None:
+        return self.attributes.get("voltageMin")
 
     @property
-    def voltageMax(self):
-        return self.attributes.get("voltageMax", None)
+    def voltageMax(self) -> float | None:
+        return self.attributes.get("voltageMax")
 
 
 class Memory(BridgeBase):
     @property
-    def total(self):
-        return self.attributes.get("total", None)
+    def total(self) -> int | None:
+        return self.attributes.get("total")
 
     @property
-    def free(self):
-        return self.attributes.get("free", None)
+    def free(self) -> int | None:
+        return self.attributes.get("free")
 
     @property
-    def used(self):
-        return self.attributes.get("used", None)
+    def used(self) -> int | None:
+        return self.attributes.get("used")
 
     @property
-    def active(self):
-        return self.attributes.get("active", None)
+    def active(self) -> int | None:
+        return self.attributes.get("active")
 
     @property
-    def available(self):
-        return self.attributes.get("available", None)
+    def available(self) -> int | None:
+        return self.attributes.get("available")
 
     @property
-    def buffers(self):
-        return self.attributes.get("buffers", None)
+    def buffers(self) -> int | None:
+        return self.attributes.get("buffers")
 
     @property
-    def cached(self):
-        return self.attributes.get("cached", None)
+    def cached(self) -> int | None:
+        return self.attributes.get("cached")
 
     @property
-    def slab(self):
-        return self.attributes.get("slab", None)
+    def slab(self) -> int | None:
+        return self.attributes.get("slab")
 
     @property
-    def buffcache(self):
-        return self.attributes.get("buffcache", None)
+    def buffcache(self) -> int | None:
+        return self.attributes.get("buffcache")
 
     @property
-    def swaptotal(self):
-        return self.attributes.get("swaptotal", None)
+    def swaptotal(self) -> int | None:
+        return self.attributes.get("swaptotal")
 
     @property
-    def swapused(self):
-        return self.attributes.get("swapused", None)
+    def swapused(self) -> int | None:
+        return self.attributes.get("swapused")
 
     @property
-    def swapfree(self):
-        return self.attributes.get("swapfree", None)
+    def swapfree(self) -> int | None:
+        return self.attributes.get("swapfree")
 
     @property
-    def layout(self):
+    def layout(self) -> List[Layout] | None:
         return [Layout(x) for x in self.attributes.get("layout", [])]

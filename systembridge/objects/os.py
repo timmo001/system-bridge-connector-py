@@ -2,104 +2,107 @@
 Class object for Os
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+
+from typing import List
 from .base import BridgeBase
 
 
 class Users(BridgeBase):
     @property
-    def user(self):
-        return self.attributes.get("user", "")
+    def user(self) -> str | None:
+        return self.attributes.get("user")
 
     @property
-    def tty(self):
-        return self.attributes.get("tty", "")
+    def tty(self) -> str | None:
+        return self.attributes.get("tty")
 
     @property
-    def date(self):
-        return self.attributes.get("date", "")
+    def date(self) -> str | None:
+        return self.attributes.get("date")
 
     @property
-    def time(self):
-        return self.attributes.get("time", "")
+    def time(self) -> str | None:
+        return self.attributes.get("time")
 
     @property
-    def ip(self):
-        return self.attributes.get("ip", "")
+    def ip(self) -> str | None:
+        return self.attributes.get("ip")
 
     @property
-    def command(self):
-        return self.attributes.get("command", "")
+    def command(self) -> str | None:
+        return self.attributes.get("command")
 
 
 class Os(BridgeBase):
     @property
-    def platform(self):
-        return self.attributes.get("platform", "")
+    def platform(self) -> str | None:
+        return self.attributes.get("platform")
 
     @property
-    def distro(self):
-        return self.attributes.get("distro", "")
+    def distro(self) -> str | None:
+        return self.attributes.get("distro")
 
     @property
-    def release(self):
-        return self.attributes.get("release", "")
+    def release(self) -> str | None:
+        return self.attributes.get("release")
 
     @property
-    def codename(self):
-        return self.attributes.get("codename", "")
+    def codename(self) -> str | None:
+        return self.attributes.get("codename")
 
     @property
-    def kernel(self):
-        return self.attributes.get("kernel", "")
+    def kernel(self) -> str | None:
+        return self.attributes.get("kernel")
 
     @property
-    def arch(self):
-        return self.attributes.get("arch", "")
+    def arch(self) -> str | None:
+        return self.attributes.get("arch")
 
     @property
-    def hostname(self):
-        return self.attributes.get("hostname", "")
+    def hostname(self) -> str | None:
+        return self.attributes.get("hostname")
 
     @property
-    def idle_time(self):
-        return self.attributes.get("idleTime", "")
+    def fqdn(self) -> str | None:
+        return self.attributes.get("fqdn")
 
     @property
-    def fqdn(self):
-        return self.attributes.get("fqdn", "")
+    def codepage(self) -> str | None:
+        return self.attributes.get("codepage")
 
     @property
-    def codepage(self):
-        return self.attributes.get("codepage", "")
+    def logofile(self) -> str | None:
+        return self.attributes.get("logofile")
 
     @property
-    def logofile(self):
-        return self.attributes.get("logofile", "")
+    def serial(self) -> str | None:
+        return self.attributes.get("serial")
 
     @property
-    def serial(self):
-        return self.attributes.get("serial", "")
+    def build(self) -> str | None:
+        return self.attributes.get("build")
 
     @property
-    def build(self):
-        return self.attributes.get("build", "")
+    def servicepack(self) -> str | None:
+        return self.attributes.get("servicepack")
 
     @property
-    def servicepack(self):
-        return self.attributes.get("servicepack", "")
+    def uefi(self) -> bool | None:
+        return self.attributes.get("uefi")
 
     @property
-    def uefi(self):
-        return self.attributes.get("uefi", False)
+    def hypervisor(self) -> bool | None:
+        return self.attributes.get("hypervisor")
 
     @property
-    def hypervisor(self):
-        return self.attributes.get("hypervisor", True)
+    def remoteSession(self) -> bool | None:
+        return self.attributes.get("remoteSession")
 
     @property
-    def remoteSession(self):
-        return self.attributes.get("remoteSession", False)
+    def idle_time(self) -> int | None:
+        return self.attributes.get("idleTime")
 
     @property
-    def users(self):
+    def users(self) -> List[Users] | None:
         return [Users(x) for x in self.attributes.get("users", [])]

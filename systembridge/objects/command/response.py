@@ -2,14 +2,16 @@
 Class object for CommandResponse
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+
 from .payload import CommandPayload
 
 
 class CommandResponse(CommandPayload):
     @property
-    def success(self):
-        return self.attributes.get("success", True)
+    def success(self) -> bool | None:
+        return self.attributes.get("success")
 
     @property
-    def message(self):
-        return self.attributes.get("message", "")
+    def message(self) -> str | None:
+        return self.attributes.get("message")

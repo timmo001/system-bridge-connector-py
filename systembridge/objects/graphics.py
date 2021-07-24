@@ -2,154 +2,162 @@
 Class object for Graphics
 Documentation: https://system-bridge.timmo.dev
 """
+from __future__ import annotations
+
+from typing import List
+
 from .base import BridgeBase
 
 
 class Controllers(BridgeBase):
     @property
-    def vendor(self):
-        return self.attributes.get("vendor", "")
+    def vendor(self) -> str | None:
+        return self.attributes.get("vendor")
 
     @property
-    def model(self):
-        return self.attributes.get("model", "")
+    def model(self) -> str | None:
+        return self.attributes.get("model")
 
     @property
-    def bus(self):
-        return self.attributes.get("bus", "")
+    def bus(self) -> str | None:
+        return self.attributes.get("bus")
 
     @property
-    def vram(self):
-        return self.attributes.get("vram", None)
+    def vram(self) -> int | None:
+        return self.attributes.get("vram")
 
     @property
-    def vramDynamic(self):
-        return self.attributes.get("vramDynamic", False)
+    def vramDynamic(self) -> bool | None:
+        return self.attributes.get("vramDynamic")
 
     @property
-    def subDeviceId(self):
-        return self.attributes.get("subDeviceId", "")
+    def subDeviceId(self) -> str | None:
+        return self.attributes.get("subDeviceId")
 
     @property
-    def driverVersion(self):
-        return self.attributes.get("driverVersion", "")
+    def driverVersion(self) -> str | None:
+        return self.attributes.get("driverVersion")
 
     @property
-    def name(self):
-        return self.attributes.get("name", "")
+    def name(self) -> str | None:
+        return self.attributes.get("name")
 
     @property
-    def pciBus(self):
-        return self.attributes.get("pciBus", "")
+    def pciBus(self) -> str | None:
+        return self.attributes.get("pciBus")
 
     @property
-    def memoryTotal(self):
-        return self.attributes.get("memoryTotal", None)
+    def fanSpeed(self) -> int | None:
+        return self.attributes.get("fanSpeed")
 
     @property
-    def memoryUsed(self):
-        return self.attributes.get("memoryUsed", None)
+    def memoryTotal(self) -> int | None:
+        return self.attributes.get("memoryTotal")
 
     @property
-    def memoryFree(self):
-        return self.attributes.get("memoryFree", None)
+    def memoryUsed(self) -> int | None:
+        return self.attributes.get("memoryUsed")
 
     @property
-    def utilizationGpu(self):
-        return self.attributes.get("utilizationGpu", None)
+    def memoryFree(self) -> int | None:
+        return self.attributes.get("memoryFree")
 
     @property
-    def utilizationMemory(self):
-        return self.attributes.get("utilizationMemory", None)
+    def utilizationGpu(self) -> int | None:
+        return self.attributes.get("utilizationGpu")
 
     @property
-    def temperatureGpu(self):
-        return self.attributes.get("temperatureGpu", None)
+    def utilizationMemory(self) -> int | None:
+        return self.attributes.get("utilizationMemory")
 
     @property
-    def powerDraw(self):
-        return self.attributes.get("powerDraw", None)
+    def temperatureGpu(self) -> int | None:
+        return self.attributes.get("temperatureGpu")
 
     @property
-    def powerLimit(self):
-        return self.attributes.get("powerLimit", None)
+    def powerDraw(self) -> float | None:
+        return self.attributes.get("powerDraw")
 
     @property
-    def clockCore(self):
-        return self.attributes.get("clockCore", None)
+    def powerLimit(self) -> float | None:
+        return self.attributes.get("powerLimit")
 
     @property
-    def clockMemory(self):
-        return self.attributes.get("clockMemory", None)
+    def clockCore(self) -> int | None:
+        return self.attributes.get("clockCore")
+
+    @property
+    def clockMemory(self) -> int | None:
+        return self.attributes.get("clockMemory")
 
 
 class Displays(BridgeBase):
     @property
-    def vendor(self):
-        return self.attributes.get("vendor", "")
+    def vendor(self) -> str | None:
+        return self.attributes.get("vendor")
 
     @property
-    def model(self):
-        return self.attributes.get("model", "")
+    def model(self) -> str | None:
+        return self.attributes.get("model")
 
     @property
-    def deviceName(self):
-        return self.attributes.get("deviceName", "")
+    def deviceName(self) -> str | None:
+        return self.attributes.get("deviceName")
 
     @property
-    def main(self):
-        return self.attributes.get("main", True)
+    def main(self) -> bool | None:
+        return self.attributes.get("main")
 
     @property
-    def builtin(self):
-        return self.attributes.get("builtin", False)
+    def builtin(self) -> bool | None:
+        return self.attributes.get("builtin")
 
     @property
-    def connection(self):
-        return self.attributes.get("connection", "")
+    def connection(self) -> str | None:
+        return self.attributes.get("connection")
 
     @property
-    def resolutionX(self):
-        return self.attributes.get("resolutionX", None)
+    def resolutionX(self) -> int | None:
+        return self.attributes.get("resolutionX")
 
     @property
-    def resolutionY(self):
-        return self.attributes.get("resolutionY", None)
+    def resolutionY(self) -> int | None:
+        return self.attributes.get("resolutionY")
 
     @property
-    def sizeX(self):
-        return self.attributes.get("sizeX", None)
+    def sizeX(self) -> int | None:
+        return self.attributes.get("sizeX")
 
     @property
-    def sizeY(self):
-        return self.attributes.get("sizeY", None)
+    def sizeY(self) -> int | None:
+        return self.attributes.get("sizeY")
 
     @property
-    def pixelDepth(self):
-        return self.attributes.get("pixelDepth", "")
+    def pixelDepth(self) -> str | None:
+        return self.attributes.get("pixelDepth")
 
     @property
-    def currentResX(self):
-        return self.attributes.get("currentResX", None)
+    def currentResX(self) -> int | None:
+        return self.attributes.get("currentResX")
 
     @property
-    def currentResY(self):
-        return self.attributes.get("currentResY", None)
+    def currentResY(self) -> int | None:
+        return self.attributes.get("currentResY")
 
     @property
-    def positionX(self):
-        return self.attributes.get("positionX", None)
+    def positionX(self) -> int | None:
+        return self.attributes.get("positionX")
 
     @property
-    def positionY(self):
-        return self.attributes.get("positionY", None)
+    def positionY(self) -> int | None:
+        return self.attributes.get("positionY")
 
 
 class Graphics(BridgeBase):
     @property
-    def controllers(self):
+    def controllers(self) -> List[Controllers] | None:
         return [Controllers(x) for x in self.attributes.get("controllers", [])]
 
     @property
-    def displays(self):
+    def displays(self) -> List[Displays] | None:
         return [Displays(x) for x in self.attributes.get("displays", [])]
