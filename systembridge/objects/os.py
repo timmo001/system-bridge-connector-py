@@ -63,6 +63,10 @@ class Os(BridgeBase):
         return self.attributes.get("hostname", "")
 
     @property
+    def idle_time(self):
+        return self.attributes.get("idleTime", "")
+
+    @property
     def fqdn(self):
         return self.attributes.get("fqdn", "")
 
