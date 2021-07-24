@@ -2,177 +2,179 @@
 Class object for Filesystem
 Documentation: https://system-bridge.timmo.dev
 """
-from typing import Any, Dict, Optional
+from __future__ import annotations
+
+from typing import Any, Dict
 from .base import BridgeBase
 
 
 class BlockDevices(BridgeBase):
     @property
-    def name(self):
-        return self.attributes.get("name", "")
+    def name(self) -> str | None:
+        return self.attributes.get("name")
 
     @property
-    def identifier(self):
-        return self.attributes.get("identifier", "")
+    def identifier(self) -> str | None:
+        return self.attributes.get("identifier")
 
     @property
-    def type(self):
-        return self.attributes.get("type", "")
+    def type(self) -> str | None:
+        return self.attributes.get("type")
 
     @property
-    def fsType(self):
-        return self.attributes.get("fsType", "")
+    def fsType(self) -> str | None:
+        return self.attributes.get("fsType")
 
     @property
-    def mount(self):
-        return self.attributes.get("mount", "")
+    def mount(self) -> str | None:
+        return self.attributes.get("mount")
 
     @property
-    def size(self):
-        return self.attributes.get("size", "")
+    def size(self) -> str | None:
+        return self.attributes.get("size")
 
     @property
-    def physical(self):
-        return self.attributes.get("physical", "")
+    def physical(self) -> str | None:
+        return self.attributes.get("physical")
 
     @property
-    def uuid(self):
-        return self.attributes.get("uuid", "")
+    def uuid(self) -> str | None:
+        return self.attributes.get("uuid")
 
     @property
-    def label(self):
-        return self.attributes.get("label", "")
+    def label(self) -> str | None:
+        return self.attributes.get("label")
 
     @property
-    def model(self):
-        return self.attributes.get("model", "")
+    def model(self) -> str | None:
+        return self.attributes.get("model")
 
     @property
-    def serial(self):
-        return self.attributes.get("serial", "")
+    def serial(self) -> str | None:
+        return self.attributes.get("serial")
 
     @property
-    def removable(self):
+    def removable(self) -> bool | None:
         return self.attributes.get("removable", False)
 
     @property
-    def protocol(self):
-        return self.attributes.get("protocol", "")
+    def protocol(self) -> str | None:
+        return self.attributes.get("protocol")
 
 
 class DiskLayout(BridgeBase):
     @property
-    def device(self):
-        return self.attributes.get("device", "")
+    def device(self) -> str | None:
+        return self.attributes.get("device")
 
     @property
-    def type(self):
-        return self.attributes.get("type", "")
+    def type(self) -> str | None:
+        return self.attributes.get("type")
 
     @property
-    def name(self):
-        return self.attributes.get("name", "")
+    def name(self) -> str | None:
+        return self.attributes.get("name")
 
     @property
-    def vendor(self):
-        return self.attributes.get("vendor", "")
+    def vendor(self) -> str | None:
+        return self.attributes.get("vendor")
 
     @property
-    def size(self):
-        return self.attributes.get("size", None)
+    def size(self) -> float | int | None:
+        return self.attributes.get("size")
 
     @property
-    def bytesPerSector(self):
-        return self.attributes.get("bytesPerSector", None)
+    def bytesPerSector(self) -> int | None:
+        return self.attributes.get("bytesPerSector")
 
     @property
-    def totalCylinders(self):
-        return self.attributes.get("totalCylinders", None)
+    def totalCylinders(self) -> int | None:
+        return self.attributes.get("totalCylinders")
 
     @property
-    def totalHeads(self):
-        return self.attributes.get("totalHeads", None)
+    def totalHeads(self) -> int | None:
+        return self.attributes.get("totalHeads")
 
     @property
-    def totalSectors(self):
-        return self.attributes.get("totalSectors", None)
+    def totalSectors(self) -> int | None:
+        return self.attributes.get("totalSectors")
 
     @property
-    def totalTracks(self):
-        return self.attributes.get("totalTracks", None)
+    def totalTracks(self) -> int | None:
+        return self.attributes.get("totalTracks")
 
     @property
-    def tracksPerCylinder(self):
-        return self.attributes.get("tracksPerCylinder", None)
+    def tracksPerCylinder(self) -> int | None:
+        return self.attributes.get("tracksPerCylinder")
 
     @property
-    def sectorsPerTrack(self):
-        return self.attributes.get("sectorsPerTrack", None)
+    def sectorsPerTrack(self) -> int | None:
+        return self.attributes.get("sectorsPerTrack")
 
     @property
-    def firmwareRevision(self):
-        return self.attributes.get("firmwareRevision", "")
+    def firmwareRevision(self) -> str | None:
+        return self.attributes.get("firmwareRevision")
 
     @property
-    def serialNum(self):
-        return self.attributes.get("serialNum", "")
+    def serialNum(self) -> str | None:
+        return self.attributes.get("serialNum")
 
     @property
-    def interfaceType(self):
-        return self.attributes.get("interfaceType", "")
+    def interfaceType(self) -> str | None:
+        return self.attributes.get("interfaceType")
 
     @property
-    def smartStatus(self):
-        return self.attributes.get("smartStatus", "")
+    def smartStatus(self) -> str | None:
+        return self.attributes.get("smartStatus")
 
     @property
-    def temperature(self):
-        return self.attributes.get("temperature", None)
+    def temperature(self) -> float | None:
+        return self.attributes.get("temperature")
 
 
 class FsSize(BridgeBase):
     @property
-    def fs(self):
-        return self.attributes.get("fs", "")
+    def fs(self) -> str | None:
+        return self.attributes.get("fs")
 
     @property
-    def type(self):
-        return self.attributes.get("type", "")
+    def type(self) -> str | None:
+        return self.attributes.get("type")
 
     @property
-    def size(self):
-        return self.attributes.get("size", None)
+    def size(self) -> int | None:
+        return self.attributes.get("size")
 
     @property
-    def used(self):
-        return self.attributes.get("used", None)
+    def used(self) -> int | None:
+        return self.attributes.get("used")
 
     @property
-    def available(self):
-        return self.attributes.get("available", None)
+    def available(self) -> int | None:
+        return self.attributes.get("available")
 
     @property
-    def use(self):
-        return self.attributes.get("use", None)
+    def use(self) -> float | None:
+        return self.attributes.get("use")
 
     @property
-    def mount(self):
-        return self.attributes.get("mount", "")
+    def mount(self) -> str | None:
+        return self.attributes.get("mount")
 
 
 class Filesystem(BridgeBase):
     @property
-    def blockDevices(self) -> Optional[Dict[str, BlockDevices]]:
-        return self.attributes.get("blockDevices", {})
+    def blockDevices(self) -> Dict[str, BlockDevices] | None:
+        return self.attributes.get("blockDevices")
 
     @property
-    def diskLayout(self) -> Optional[Dict[str, DiskLayout]]:
-        return self.attributes.get("diskLayout", {})
+    def diskLayout(self) -> Dict[str, DiskLayout] | None:
+        return self.attributes.get("diskLayout")
 
     @property
-    def disksIO(self) -> Optional[Dict[str, Any]]:
-        return self.attributes.get("disksIO", "")
+    def disksIO(self) -> Dict[str, Any] | None:
+        return self.attributes.get("disksIO")
 
     @property
-    def fsSize(self) -> Optional[Dict[str, FsSize]]:
-        return self.attributes.get("fsSize", {})
+    def fsSize(self) -> Dict[str, FsSize] | None:
+        return self.attributes.get("fsSize")
