@@ -273,7 +273,7 @@ class Bridge(BridgeBase):
             self._api_key
         )
         await self._websocket_client.connect(f"ws://{host}:{port}")
-        await self._websocket_client.authenticate()
+        await self._websocket_client.register_listener()
 
     async def async_send_event(self, event: str, data: Event) -> None:
         await self._websocket_client.send_event(event, data)

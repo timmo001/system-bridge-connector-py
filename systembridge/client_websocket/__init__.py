@@ -21,7 +21,7 @@ class BridgeClientWebSocket(BridgeBase):
     async def connect(self, uri: str) -> None:
         self._websocket: ClientConnection = await websockets.connect(uri)
 
-    async def authenticate(self) -> None:
+    async def register_listener(self) -> None:
         await self._websocket.send(
             json.dumps(
                 {
