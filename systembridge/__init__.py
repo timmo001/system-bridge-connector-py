@@ -284,7 +284,7 @@ class Bridge(BridgeBase):
         if self._websocket_client is not None:
             await self._websocket_client.disconnect
 
-    async def async_send_event(self, event: str, data: Event) -> None:
+    async def async_send_event(self, event: str, data: Any) -> None:
         await self._websocket_client.send_event(event, data)
 
     async def listen_for_events(self, callback: function) -> None:
