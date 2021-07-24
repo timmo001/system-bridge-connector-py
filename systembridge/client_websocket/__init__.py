@@ -2,7 +2,7 @@
 from __future__ import annotations
 import asyncio
 import json
-from systembridge.exceptions import BridgeException
+from systembridge.exceptions import BridgeConnectionClosedException
 import websockets
 
 from typing import Any
@@ -54,4 +54,4 @@ class BridgeClientWebSocket(BridgeBase):
                 message = await self._websocket.recv()
                 await callback(json.loads(message))
             except ConnectionClosed as e:
-                raise BridgeException from e
+                raise BridgeConnectionClosedException from e
