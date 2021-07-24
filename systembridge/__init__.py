@@ -1,5 +1,6 @@
 """Bridge: Init"""
 from __future__ import annotations
+from systembridge.objects.settings.put import SettingsPutPayload
 from aiohttp import ClientResponse
 from datetime import datetime, timezone
 from typing import Any, List
@@ -21,10 +22,6 @@ from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
 from .objects.keyboard.payload import KeyboardPayload
 from .objects.keyboard.response import KeyboardResponse
-from .objects.media import Media, Source
-from .objects.media.delete import MediaDeleteResponse
-from .objects.media.post import MediaPostPayload, MediaPostResponse
-from .objects.media.put import MediaPutPayload, MediaPutResponse
 from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
@@ -51,9 +48,6 @@ class Bridge(BridgeBase):
         self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
-        self._media_status_last_updated: datetime | None = None
-        self._media_status: Media | None = None
-        self._media: Media = {}
         self._memory: Memory = {}
         self._network: Network = {}
         self._os: Os = {}
@@ -99,22 +93,6 @@ class Bridge(BridgeBase):
         if self.media_status is None:
             return None
         return f"{self.base_url}/media/cover.png"
-
-    @property
-    def media_source(self) -> Source:
-        return self._media_source
-
-    @property
-    def media_status(self) -> Media | None:
-        return self._media_status
-
-    @property
-    def media_status_last_updated(self) -> datetime:
-        return self._media_status_last_updated
-
-    @property
-    def media(self) -> Media:
-        return self._media
 
     @property
     def memory(self) -> Memory:
@@ -232,22 +210,6 @@ class Bridge(BridgeBase):
         self._graphics = Graphics(await self.async_get("/graphics"))
         return self._graphics
 
-    async def async_get_media(self) -> Media | None:
-        """Get media information"""
-        media = await self.async_get("/media")
-        if media is None:
-            return None
-        self._media = Media(media)
-        return self._media
-
-    async def async_get_media_source(self) -> Media | None:
-        """Get media source"""
-        source = await self.async_get("/media/source")
-        if source is None:
-            return None
-        self._media_source = Source(source)
-        return self._media_source
-
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
         self._memory = Memory(await self.async_get("/memory"))
@@ -288,7 +250,7 @@ class Bridge(BridgeBase):
         return Settings(await self.async_get(f"/settings/{section}/{key}"))
 
     async def async_update_setting(
-        self, section: str, key: str, payload: MediaPutPayload
+        self, section: str, key: str, payload: SettingsPutPayload
     ) -> Settings:
         """Update setting"""
         return Settings(await self.async_put(f"/settings/{section}/{key}", payload))
@@ -297,22 +259,6 @@ class Bridge(BridgeBase):
         """Get system information"""
         self._system = System(await self.async_get("/system"))
         return self._system
-
-    async def async_stop_media_player(self) -> MediaDeleteResponse:
-        """Stop media player"""
-        return MediaDeleteResponse(await self.async_delete("/media"))
-
-    async def async_create_media_player(
-        self, payload: MediaPostPayload
-    ) -> MediaPostResponse:
-        """Create media player"""
-        return MediaPostResponse(await self.async_post("/media", payload))
-
-    async def async_update_media(
-        self, id: str, payload: MediaPutPayload
-    ) -> MediaPutResponse:
-        """Update media player"""
-        return MediaPutResponse(await self.async_put(f"/media/{id}", payload))
 
     async def async_send_keypress(self, payload: KeyboardPayload) -> KeyboardResponse:
         """Send keypress"""
@@ -332,11 +278,6 @@ class Bridge(BridgeBase):
         async def handle_message(message: EventBase) -> None:
             if "data" in message and type(message["data"]) is dict:
                 event = Event(message["data"])
-                if event.name == "player-status":
-                    if event.data is None:
-                        self._media_status = None
-                    self._media_status = Media(event.data)
-                    self._media_status_last_updated = datetime.now(timezone.utc)
                 await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
