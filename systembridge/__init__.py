@@ -1,5 +1,7 @@
 """Bridge: Init"""
 from __future__ import annotations
+
+import asyncio
 from aiohttp import ClientResponse
 from typing import Any, List
 
@@ -323,4 +325,6 @@ class Bridge(BridgeBase):
                         self._system = System(event.data)
                 await callback(event)
 
-        await self._websocket_client.listen_for_messages(handle_message)
+        asyncio.ensure_future(
+            self._websocket_client.listen_for_messages(handle_message)
+        )
