@@ -23,17 +23,7 @@ async def main() -> None:
         )
 
         async def handle_event(event: Event):
-            if event.name == "player-status":
-                print(
-                    "Media Status:",
-                    client._media_status_last_updated,
-                    client._media_status,
-                    client._media_status.__dict__,
-                )
-            elif event.name == "player-cover-ready":
-                print("Media Cover:", client.media_cover_url)
-            else:
-                print("Unused Event:", event.__dict__)
+            print("Unused Event:", event.__dict__)
 
         await client.async_connect_websocket(
             HOST, (await client.async_get_setting("network", "wsPort")).value
@@ -51,7 +41,6 @@ async def main() -> None:
                     client.async_get_display(),
                     client.async_get_filesystem(),
                     client.async_get_graphics(),
-                    client.async_get_media(),
                     client.async_get_memory(),
                     client.async_get_network(),
                     client.async_get_os(),
@@ -83,9 +72,6 @@ async def main() -> None:
         # print()
         print(client.graphics)
         # print(client.graphics.__dict__)
-        # print()
-        print(client.media)
-        # print(client.media.__dict__)
         # print()
         print(client.memory)
         # print(client.memory.__dict__)
