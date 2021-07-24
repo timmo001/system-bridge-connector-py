@@ -1,5 +1,7 @@
 """Bridge: Init"""
 from __future__ import annotations
+
+import asyncio
 from aiohttp import ClientResponse
 from typing import Any, List
 
@@ -41,20 +43,20 @@ class Bridge(BridgeBase):
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
-        self._audio: Audio = {}
-        self._battery: Battery = {}
-        self._bluetooth: Bluetooth = {}
-        self._cpu: Cpu = {}
-        self._display: Display = {}
-        self._filesystem: Filesystem = {}
-        self._graphics: Graphics = {}
-        self._information: Information = {}
-        self._memory: Memory = {}
-        self._network: Network = {}
-        self._os: Os = {}
-        self._processes: Processes = {}
-        self._settings: List[Settings] = []
-        self._system: System = {}
+        self._audio: Audio = None
+        self._battery: Battery = None
+        self._bluetooth: Bluetooth = None
+        self._cpu: Cpu = None
+        self._display: Display = None
+        self._filesystem: Filesystem = None
+        self._graphics: Graphics = None
+        self._information: Information = None
+        self._memory: Memory = None
+        self._network: Network = None
+        self._os: Os = None
+        self._processes: Processes = None
+        self._settings: List[Settings] = None
+        self._system: System = None
         self._websocket_client: BridgeClientWebSocket = None
 
     @property
@@ -282,7 +284,7 @@ class Bridge(BridgeBase):
 
     async def async_close_websocket(self) -> None:
         if self._websocket_client is not None:
-            await self._websocket_client.close
+            await self._websocket_client.close()
 
     async def async_send_event(self, event: str, data: Any) -> None:
         await self._websocket_client.send_event(event, data)
@@ -323,4 +325,6 @@ class Bridge(BridgeBase):
                         self._system = System(event.data)
                 await callback(event)
 
-        await self._websocket_client.listen_for_messages(handle_message)
+        asyncio.ensure_future(
+            self._websocket_client.listen_for_messages(handle_message)
+        )
