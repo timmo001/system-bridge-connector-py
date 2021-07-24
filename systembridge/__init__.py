@@ -36,7 +36,7 @@ class Bridge(BridgeBase):
     """Main class for Bridge."""
 
     def __init__(self, client: BridgeClient, base_url: str, api_key: str) -> None:
-        """Initialize the token manager class."""
+        """Initialize the class."""
         self._client = client
         self._base_url = base_url
         self._api_key = api_key
