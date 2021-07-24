@@ -18,6 +18,7 @@ from .objects.display.put import DisplayPutPayload
 from .objects.events import Event, EventBase
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
+from .objects.information import Information
 from .objects.keyboard.payload import KeyboardPayload
 from .objects.keyboard.response import KeyboardResponse
 from .objects.memory import Memory
@@ -47,6 +48,7 @@ class Bridge(BridgeBase):
         self._display: Display = {}
         self._filesystem: Filesystem = {}
         self._graphics: Graphics = {}
+        self._information: Information = {}
         self._memory: Memory = {}
         self._network: Network = {}
         self._os: Os = {}
@@ -86,6 +88,10 @@ class Bridge(BridgeBase):
     @property
     def graphics(self) -> Graphics:
         return self._graphics
+
+    @property
+    def information(self) -> Information:
+        return self._information
 
     @property
     def memory(self) -> Memory:
@@ -202,6 +208,11 @@ class Bridge(BridgeBase):
         """Get graphics information"""
         self._graphics = Graphics(await self.async_get("/graphics"))
         return self._graphics
+
+    async def async_get_information(self) -> Information:
+        """Get information"""
+        self._information = Information(await self.async_get("/information"))
+        return self._information
 
     async def async_get_memory(self) -> Memory:
         """Get memory information"""
