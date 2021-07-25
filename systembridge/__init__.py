@@ -325,6 +325,4 @@ class Bridge(BridgeBase):
                         self._system = System(event.data)
                 await callback(event)
 
-        asyncio.ensure_future(
-            self._websocket_client.listen_for_messages(handle_message)
-        )
+        await self._websocket_client.listen_for_messages(handle_message)
