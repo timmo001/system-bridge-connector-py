@@ -5,12 +5,7 @@ import json
 import websockets
 
 from typing import Any
-from websockets import (
-    ClientConnection,
-    ConnectionClosed,
-    InvalidHandshake,
-    InvalidMessage,
-)
+from websockets import ConnectionClosed, InvalidHandshake, InvalidMessage
 
 from ..exceptions import (
     BridgeConnectionClosedException,
@@ -24,10 +19,10 @@ class BridgeClientWebSocket(BridgeBase):
 
     def __init__(self, api_key: str) -> None:
         self._api_key: str = api_key
-        self._websocket: ClientConnection = None
+        self._websocket = None
 
     @property
-    def websocket(self) -> ClientConnection:
+    def websocket(self):
         """Get websocket connection."""
         return self._websocket
 
@@ -38,7 +33,7 @@ class BridgeClientWebSocket(BridgeBase):
 
     async def connect(self, uri: str) -> None:
         try:
-            self._websocket: ClientConnection = await websockets.connect(uri)
+            self._websocket = await websockets.connect(uri)
         except InvalidHandshake as e:
             raise BridgeException from e
 
