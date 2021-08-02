@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import List
 
 from .base import BridgeBase
+from .hardware_sensor import HardwareSensor
 
 
 class Cache(BridgeBase):
@@ -179,3 +180,7 @@ class Cpu(BridgeBase):
     @property
     def temperature(self) -> Temperature | None:
         return Temperature(self.attributes.get("temperature"))
+
+    @property
+    def hardware_sensors(self) -> List[HardwareSensor] | None:
+        return [HardwareSensor(x for x in self.attributes.get("hardwareSensors", []))]
