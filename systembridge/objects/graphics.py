@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import List
 
 from .base import BridgeBase
+from .hardware_sensor import HardwareSensor
 
 
 class Controllers(BridgeBase):
@@ -161,3 +162,7 @@ class Graphics(BridgeBase):
     @property
     def displays(self) -> List[Displays] | None:
         return [Displays(x) for x in self.attributes.get("displays", [])]
+
+    @property
+    def hardware_sensors(self) -> List[HardwareSensor] | None:
+        return [HardwareSensor(x for x in self.attributes.get("hardwareSensors", []))]
