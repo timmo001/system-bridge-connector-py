@@ -3,6 +3,7 @@ Class object for Display
 Documentation: https://system-bridge.timmo.dev
 """
 from __future__ import annotations
+from typing import List
 
 from ..base import BridgeBase
 
@@ -67,3 +68,9 @@ class Display(BridgeBase):
     @property
     def positionY(self) -> int | None:
         return self.attributes.get("positionY")
+
+
+class DisplayBase(BridgeBase):
+    @property
+    def displays(self) -> List[Display]:
+        return [Display(display) for display in self.attributes.get("displays")]
