@@ -1,7 +1,6 @@
 """Bridge: Init"""
 from __future__ import annotations
 
-import asyncio
 from aiohttp import ClientResponse
 from typing import Any, List
 
@@ -15,7 +14,7 @@ from .objects.bluetooth import Bluetooth
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
-from .objects.display import Display
+from .objects.display import DisplayBase
 from .objects.display.put import DisplayPutPayload
 from .objects.events import Event, EventBase
 from .objects.filesystem import Filesystem
@@ -47,7 +46,7 @@ class Bridge(BridgeBase):
         self._battery: Battery = None
         self._bluetooth: Bluetooth = None
         self._cpu: Cpu = None
-        self._display: Display = None
+        self._display: DisplayBase = None
         self._filesystem: Filesystem = None
         self._graphics: Graphics = None
         self._information: Information = None
@@ -80,7 +79,7 @@ class Bridge(BridgeBase):
         return self._cpu
 
     @property
-    def display(self) -> Display:
+    def display(self) -> DisplayBase:
         return self._display
 
     @property
@@ -195,16 +194,10 @@ class Bridge(BridgeBase):
         self._cpu = Cpu(await self.async_get("/cpu"))
         return self._cpu
 
-    async def async_get_display(self) -> Cpu:
+    async def async_get_display(self) -> DisplayBase:
         """Get display information"""
-        self._display = Display(await self.async_get("/display"))
+        self._display = DisplayBase(await self.async_get("/display"))
         return self._display
-
-    async def async_update_display(
-        self, id: str, payload: DisplayPutPayload
-    ) -> Display:
-        """Update display"""
-        return AudioPutResponse(await self.async_put(f"/display/{id}", payload))
 
     async def async_get_filesystem(self) -> Filesystem:
         """Get filesystem information"""
