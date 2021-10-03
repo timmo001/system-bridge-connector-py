@@ -69,6 +69,10 @@ class Display(BridgeBase):
     def positionY(self) -> int | None:
         return self.attributes.get("positionY")
 
+    @property
+    def currentRefreshRate(self) -> int | None:
+        return self.attributes.get("currentRefreshRate")
+
 
 class DisplayBase(BridgeBase):
     @property

@@ -3,7 +3,7 @@ import io
 
 from setuptools import setup, find_packages
 
-version = "2.1.2"
+version = "2.1.3"
 
 setup(
     name="systembridge",
