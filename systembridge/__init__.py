@@ -296,7 +296,7 @@ class Bridge(BridgeBase):
                     elif name == "cpu":
                         self._cpu = Cpu(event.data)
                     elif name == "display":
-                        self._display = Display(event.data)
+                        self._display = DisplayBase(event.data)
                     elif name == "filesystem":
                         self._filesystem = Filesystem(event.data)
                     elif name == "graphics":
