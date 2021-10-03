@@ -15,7 +15,6 @@ from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.display import DisplayBase
-from .objects.display.put import DisplayPutPayload
 from .objects.events import Event, EventBase
 from .objects.filesystem import Filesystem
 from .objects.graphics import Graphics
