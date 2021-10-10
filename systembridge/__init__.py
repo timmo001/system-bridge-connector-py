@@ -16,7 +16,8 @@ from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.display import DisplayBase
 from .objects.events import Event, EventBase
-from .objects.filesystem import Filesystem, FilesystemFile
+from .objects.filesystem import Filesystem
+from .objects.filesystem.file import FilesystemFile
 from .objects.graphics import Graphics
 from .objects.information import Information
 from .objects.keyboard.payload import KeyboardPayload
