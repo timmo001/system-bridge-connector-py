@@ -5,7 +5,7 @@ Documentation: https://system-bridge.timmo.dev
 from __future__ import annotations
 
 from typing import Any, Dict
-from .base import BridgeBase
+from ..base import BridgeBase
 
 
 class BlockDevices(BridgeBase):

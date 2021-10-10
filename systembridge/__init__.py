@@ -16,7 +16,7 @@ from .objects.command.response import CommandResponse
 from .objects.cpu import Cpu
 from .objects.display import DisplayBase
 from .objects.events import Event, EventBase
-from .objects.filesystem import Filesystem
+from .objects.filesystem import Filesystem, FilesystemFile
 from .objects.graphics import Graphics
 from .objects.information import Information
 from .objects.keyboard.payload import KeyboardPayload
@@ -202,6 +202,27 @@ class Bridge(BridgeBase):
         """Get filesystem information"""
         self._filesystem = Filesystem(await self.async_get("/filesystem"))
         return self._filesystem
+
+    async def async_get_filesystem_files(self, path: str) -> List[FilesystemFile]:
+        """Get filesystem files information"""
+        files = await self.async_get(f"/filesystem/files?path={path}")
+        return [FilesystemFile(file) for file in files]
+
+    async def async_get_filesystem_file(self, path: str) -> FilesystemFile:
+        """Get filesystem files information"""
+        return FilesystemFile(
+            await self.async_get(f"/filesystem/files/file?path={path}")
+        )
+
+    async def async_get_filesystem_file_data(self, path: str) -> any:
+        """Get filesystem file data"""
+        return await self.async_get(f"/filesystem/files/file/data?path={path}")
+
+    async def async_upload_filesystem_file(self, path: str) -> any:
+        """Upload file to filesystem"""
+        return FilesystemFile(
+            await self.async_post(f"/filesystem/files/file/data?path={path}")
+        )
 
     async def async_get_graphics(self) -> Graphics:
         """Get graphics information"""
