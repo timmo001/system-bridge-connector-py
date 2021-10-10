@@ -219,6 +219,10 @@ class Bridge(BridgeBase):
         """Get filesystem file data"""
         return await self.async_get(f"/filesystem/files/file/data?path={path}")
 
+    def get_filesystem_file_data_url(self, path: str) -> str:
+        """Get filesystem file data url"""
+        return f"{self._base_url}/filesystem/files/file/data?apiKey={self._api_key}&path={path}"
+
     async def async_upload_filesystem_file(self, path: str) -> any:
         """Upload file to filesystem"""
         return FilesystemFile(
