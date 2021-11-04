@@ -29,7 +29,7 @@ class BridgeClient(BridgeBase):
 
     async def request(self, method: str, url: str, **kwargs) -> ClientResponse:
         """Make a request."""
-        async with async_timeout.timeout(20, loop=get_event_loop()):
+        async with async_timeout.timeout(20):
             response: ClientResponse = await self._session.request(
                 method,
                 url,
