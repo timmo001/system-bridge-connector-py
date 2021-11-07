@@ -77,11 +77,11 @@ class Bridge(BridgeBase):
     @property
     def configuration_url(self) -> str:
         """Get configuration url"""
-        url= f"{self.base_url}/app/settings?apiKey={self._api_key}"
-        if self.information is not None 
-            if self.information.apiPort is not None: 
+        url = f"{self.base_url}/app/settings?apiKey={self._api_key}"
+        if self.information is not None:
+            if self.information.apiPort is not None:
                 url += f"&apiPort={self.information.apiPort}"
-            if self.information.websocketPort is not None: 
+            if self.information.websocketPort is not None:
                 url += f"&wsPort={self.information.websocketPort}"
         return url
 
