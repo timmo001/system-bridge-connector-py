@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from aiohttp import ClientResponse
 from typing import Any, List
+from urllib.parse import urlencode
 
 from .client import BridgeClient
 from .client_websocket import BridgeClientWebSocket
@@ -73,17 +74,6 @@ class Bridge(BridgeBase):
     @property
     def bluetooth(self) -> Bluetooth:
         return self._bluetooth
-
-    @property
-    def configuration_url(self) -> str:
-        """Get configuration url"""
-        url = f"{self.base_url}/app/settings?apiKey={self._api_key}"
-        if self.information is not None:
-            if self.information.apiPort is not None:
-                url += f"&apiPort={self.information.apiPort}"
-            if self.information.websocketPort is not None:
-                url += f"&wsPort={self.information.websocketPort}"
-        return url
 
     @property
     def cpu(self) -> Cpu:
@@ -355,3 +345,15 @@ class Bridge(BridgeBase):
                 await callback(event)
 
         await self._websocket_client.listen_for_messages(handle_message)
+
+    def get_configuration_url(self, include_api_key=False) -> str:
+        """Get configuration url"""
+        return f"""{self.base_url}/app/settings?{urlencode({
+            "apiKey": self._api_key if include_api_key is not False else "",
+            "apiPort": self.information.apiPort
+            if self.information is not None
+            else "",
+            "wsPort": self.information.websocketPort
+            if self.information is not None
+            else "",
+        })}"""
