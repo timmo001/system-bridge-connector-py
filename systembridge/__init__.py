@@ -5,21 +5,20 @@ from aiohttp import ClientResponse
 from typing import Any, List
 from urllib.parse import urlencode
 
-from systembridge.objects.hardware_sensor import HardwareSensor
 
 from .client import BridgeClient
 from .client_websocket import BridgeClientWebSocket
-from .objects.audio import Audio, AudioDevice, AudioSettings
+from .objects.audio import Audio
 from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
-from .objects.cpu import Cache, Cpu, CpuInner, CurrentSpeed, Temperature
+from .objects.cpu import Cpu
 from .objects.display import DisplayBase
 from .objects.events import Event, EventBase
-from .objects.filesystem import BlockDevices, DiskLayout, Filesystem, FsSize
+from .objects.filesystem import Filesystem
 from .objects.filesystem.file import FilesystemFile
 from .objects.graphics import Graphics
 from .objects.information import Information
@@ -29,7 +28,7 @@ from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
 from .objects.os import Os
-from .objects.processes import Load, ProcessList, Processes
+from .objects.processes import ProcessList, Processes
 from .objects.settings import Settings
 from .objects.settings.put import SettingsPutPayload
 from .objects.system import System
