@@ -338,28 +338,28 @@ class Bridge(BridgeBase):
                         if self._cpu is None:
                             self._cpu = Cpu({"cache": event.data})
                         else:
-                            self._cpu = Cpu({**self._audio, "cache": event.data})
+                            self._cpu = Cpu({**self._cpu, "cache": event.data})
                     elif name == "cpu-findCpu":
                         if self._cpu is None:
                             self._cpu = Cpu({"cpu": event.data})
                         else:
-                            self._cpu = Cpu({**self._audio, "cpu": event.data})
+                            self._cpu = Cpu({**self._cpu, "cpu": event.data})
                     elif name == "cpu-findCurrentSpeed":
                         if self._cpu is None:
                             self._cpu = Cpu({"currentSpeed": event.data})
                         else:
-                            self._cpu = Cpu({**self._audio, "currentSpeed": event.data})
+                            self._cpu = Cpu({**self._cpu, "currentSpeed": event.data})
                     elif name == "cpu-findTemperature":
                         if self._cpu is None:
                             self._cpu = Cpu({"temperature": event.data})
                         else:
-                            self._cpu = Cpu({**self._audio, "temperature": event.data})
+                            self._cpu = Cpu({**self._cpu, "temperature": event.data})
                     elif name == "cpu-findHardwareSensors":
                         if self._cpu is None:
                             self._cpu = Cpu({"hardwareSensors": event.data})
                         else:
                             self._cpu = Cpu(
-                                {**self._audio, "hardwareSensors": event.data}
+                                {**self._cpu, "hardwareSensors": event.data}
                             )
                     elif name == "display":
                         self._display = DisplayBase(event.data)
@@ -370,28 +370,28 @@ class Bridge(BridgeBase):
                             self._filesystem = Filesystem({"blockDevices": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._audio, "blockDevices": event.data}
+                                {**self._filesystem, "blockDevices": event.data}
                             )
                     elif name == "filesystem-findDisksLayout":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"diskLayout": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._audio, "diskLayout": event.data}
+                                {**self._filesystem, "diskLayout": event.data}
                             )
                     elif name == "filesystem-findDisksIO":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"disksIO": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._audio, "disksIO": event.data}
+                                {**self._filesystem, "disksIO": event.data}
                             )
                     elif name == "filesystem-findSizes":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"fsSize": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._audio, "fsSize": event.data}
+                                {**self._filesystem, "fsSize": event.data}
                             )
                     elif name == "graphics":
                         self._graphics = Graphics(event.data)
@@ -410,7 +410,7 @@ class Bridge(BridgeBase):
                             self._processes = Processes({"load": event.data})
                         else:
                             self._processes = Processes(
-                                {**self._audio, "load": event.data}
+                                {**self._processes, "load": event.data}
                             )
                     elif name == "settings":
                         self._settings = [Settings(setting) for setting in event.data]
