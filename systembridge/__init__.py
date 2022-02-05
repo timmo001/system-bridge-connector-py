@@ -322,12 +322,16 @@ class Bridge(BridgeBase):
                         if self._audio is None:
                             self._audio = Audio({"current": event.data})
                         else:
-                            self._audio = Audio({**self._audio, "current": event.data})
+                            self._audio = Audio(
+                                {**self._audio.attributes, "current": event.data}
+                            )
                     if name == "audio-getDevices":
                         if self._audio is None:
                             self._audio = Audio({"devices": event.data})
                         else:
-                            self._audio = Audio({**self._audio, "devices": event.data})
+                            self._audio = Audio(
+                                {**self._audio.attributes, "devices": event.data}
+                            )
                     elif name == "battery":
                         self._battery = Battery(event.data)
                     elif name == "bluetooth":
@@ -338,28 +342,34 @@ class Bridge(BridgeBase):
                         if self._cpu is None:
                             self._cpu = Cpu({"cache": event.data})
                         else:
-                            self._cpu = Cpu({**self._cpu, "cache": event.data})
+                            self._cpu = Cpu(
+                                {**self._cpu.attributes, "cache": event.data}
+                            )
                     elif name == "cpu-findCpu":
                         if self._cpu is None:
                             self._cpu = Cpu({"cpu": event.data})
                         else:
-                            self._cpu = Cpu({**self._cpu, "cpu": event.data})
+                            self._cpu = Cpu({**self._cpu.attributes, "cpu": event.data})
                     elif name == "cpu-findCurrentSpeed":
                         if self._cpu is None:
                             self._cpu = Cpu({"currentSpeed": event.data})
                         else:
-                            self._cpu = Cpu({**self._cpu, "currentSpeed": event.data})
+                            self._cpu = Cpu(
+                                {**self._cpu.attributes, "currentSpeed": event.data}
+                            )
                     elif name == "cpu-findTemperature":
                         if self._cpu is None:
                             self._cpu = Cpu({"temperature": event.data})
                         else:
-                            self._cpu = Cpu({**self._cpu, "temperature": event.data})
+                            self._cpu = Cpu(
+                                {**self._cpu.attributes, "temperature": event.data}
+                            )
                     elif name == "cpu-findHardwareSensors":
                         if self._cpu is None:
                             self._cpu = Cpu({"hardwareSensors": event.data})
                         else:
                             self._cpu = Cpu(
-                                {**self._cpu, "hardwareSensors": event.data}
+                                {**self._cpu.attributes, "hardwareSensors": event.data}
                             )
                     elif name == "display":
                         self._display = DisplayBase(event.data)
@@ -370,28 +380,34 @@ class Bridge(BridgeBase):
                             self._filesystem = Filesystem({"blockDevices": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._filesystem, "blockDevices": event.data}
+                                {
+                                    **self._filesystem.attributes,
+                                    "blockDevices": event.data,
+                                }
                             )
                     elif name == "filesystem-findDisksLayout":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"diskLayout": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._filesystem, "diskLayout": event.data}
+                                {
+                                    **self._filesystem.attributes,
+                                    "diskLayout": event.data,
+                                }
                             )
                     elif name == "filesystem-findDisksIO":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"disksIO": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._filesystem, "disksIO": event.data}
+                                {**self._filesystem.attributes, "disksIO": event.data}
                             )
                     elif name == "filesystem-findSizes":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({"fsSize": event.data})
                         else:
                             self._filesystem = Filesystem(
-                                {**self._filesystem, "fsSize": event.data}
+                                {**self._filesystem.attributes, "fsSize": event.data}
                             )
                     elif name == "graphics":
                         self._graphics = Graphics(event.data)
@@ -410,7 +426,7 @@ class Bridge(BridgeBase):
                             self._processes = Processes({"load": event.data})
                         else:
                             self._processes = Processes(
-                                {**self._processes, "load": event.data}
+                                {**self._processes.attributes, "load": event.data}
                             )
                     elif name == "settings":
                         self._settings = [Settings(setting) for setting in event.data]
