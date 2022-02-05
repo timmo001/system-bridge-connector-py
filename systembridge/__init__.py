@@ -321,11 +321,11 @@ class Bridge(BridgeBase):
                     if name == "audio-findCurrent":
                         if self._audio is None:
                             self._audio = Audio({})
-                        self._audio.current = AudioSettings(event.data)
+                        self._audio["current"] = AudioSettings(event.data)
                     if name == "audio-getDevices":
                         if self._audio is None:
                             self._audio = Audio({})
-                        self._audio.devices = AudioDevice(event.data)
+                        self._audio["devices"] = AudioDevice(event.data)
                     elif name == "battery":
                         self._battery = Battery(event.data)
                     elif name == "bluetooth":
@@ -335,23 +335,23 @@ class Bridge(BridgeBase):
                     elif name == "cpu-findCpuCache":
                         if self._cpu is None:
                             self._cpu = Cpu({})
-                        self._cpu.cache = Cache(event.data)
+                        self._cpu["cache"] = Cache(event.data)
                     elif name == "cpu-findCpu":
                         if self._cpu is None:
                             self._cpu = Cpu({})
-                        self._cpu.cpu = CpuInner(event.data)
+                        self._cpu["cpu"] = CpuInner(event.data)
                     elif name == "cpu-findCurrentSpeed":
                         if self._cpu is None:
                             self._cpu = Cpu({})
-                        self._cpu.currentSpeed = CurrentSpeed(event.data)
+                        self._cpu["currentSpeed"] = CurrentSpeed(event.data)
                     elif name == "cpu-findTemperature":
                         if self._cpu is None:
                             self._cpu = Cpu({})
-                        self._cpu.temperature = Temperature(event.data)
+                        self._cpu["temperature"] = Temperature(event.data)
                     elif name == "cpu-findHardwareSensors":
                         if self._cpu is None:
                             self._cpu = Cpu({})
-                        self._cpu.hardware_sensors = [
+                        self._cpu["hardware_sensors"] = [
                             HardwareSensor(item) for item in event.data
                         ]
                     elif name == "display":
@@ -361,19 +361,19 @@ class Bridge(BridgeBase):
                     elif name == "filesystem-findBlockDevices":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({})
-                        self._filesystem.blockDevices = BlockDevices(event.data)
+                        self._filesystem["blockDevices"] = BlockDevices(event.data)
                     elif name == "filesystem-findDisksLayout":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({})
-                        self._filesystem.diskLayout = DiskLayout(event.data)
+                        self._filesystem["diskLayout"] = DiskLayout(event.data)
                     elif name == "filesystem-findDisksIO":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({})
-                        self._filesystem.diskLayout = DiskLayout(event.data)
+                        self._filesystem["disksIO"] = event.data
                     elif name == "filesystem-findSizes":
                         if self._filesystem is None:
                             self._filesystem = Filesystem({})
-                        self._filesystem.fsSize = FsSize(event.data)
+                        self._filesystem["fsSize"] = FsSize(event.data)
                     elif name == "graphics":
                         self._graphics = Graphics(event.data)
                     elif name == "information":
@@ -389,7 +389,7 @@ class Bridge(BridgeBase):
                     elif name == "processes-findCurrentLoad":
                         if self._processes is None:
                             self._processes = Processes({})
-                        self._processes.load = Load(event.data)
+                        self._processes["load"] = Load(event.data)
                     elif name == "settings":
                         self._settings = [Settings(setting) for setting in event.data]
                     elif name == "system":
