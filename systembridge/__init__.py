@@ -5,19 +5,21 @@ from aiohttp import ClientResponse
 from typing import Any, List
 from urllib.parse import urlencode
 
+from systembridge.objects.hardware_sensor import HardwareSensor
+
 from .client import BridgeClient
 from .client_websocket import BridgeClientWebSocket
-from .objects.audio import Audio
+from .objects.audio import Audio, AudioDevice, AudioSettings
 from .objects.audio.put import AudioPutPayload, AudioPutResponse
 from .objects.base import BridgeBase
 from .objects.battery import Battery
 from .objects.bluetooth import Bluetooth
 from .objects.command.payload import CommandPayload
 from .objects.command.response import CommandResponse
-from .objects.cpu import Cpu
+from .objects.cpu import Cache, Cpu, CpuInner, CurrentSpeed, Temperature
 from .objects.display import DisplayBase
 from .objects.events import Event, EventBase
-from .objects.filesystem import Filesystem
+from .objects.filesystem import BlockDevices, DiskLayout, Filesystem, FsSize
 from .objects.filesystem.file import FilesystemFile
 from .objects.graphics import Graphics
 from .objects.information import Information
@@ -27,7 +29,7 @@ from .objects.memory import Memory
 from .objects.network import Network
 from .objects.open.payload import OpenPayload
 from .objects.os import Os
-from .objects.processes import ProcessList, Processes
+from .objects.processes import Load, ProcessList, Processes
 from .objects.settings import Settings
 from .objects.settings.put import SettingsPutPayload
 from .objects.system import System
@@ -316,16 +318,62 @@ class Bridge(BridgeBase):
                     name = event.name.replace("data-", "")
                     if name == "audio":
                         self._audio = Audio(event.data)
+                    if name == "audio-findCurrent":
+                        if self._audio is None:
+                            self._audio = Audio()
+                        self._audio.current = AudioSettings(event.data)
+                    if name == "audio-getDevices":
+                        if self._audio is None:
+                            self._audio = Audio()
+                        self._audio.devices = AudioDevice(event.data)
                     elif name == "battery":
                         self._battery = Battery(event.data)
                     elif name == "bluetooth":
                         self._bluetooth = Bluetooth(event.data)
                     elif name == "cpu":
                         self._cpu = Cpu(event.data)
+                    elif name == "cpu-findCpuCache":
+                        if self._cpu is None:
+                            self._cpu = Cpu()
+                        self._cpu.cache = Cache(event.data)
+                    elif name == "cpu-findCpu":
+                        if self._cpu is None:
+                            self._cpu = Cpu()
+                        self._cpu.cpu = CpuInner(event.data)
+                    elif name == "cpu-findCurrentSpeed":
+                        if self._cpu is None:
+                            self._cpu = Cpu()
+                        self._cpu.currentSpeed = CurrentSpeed(event.data)
+                    elif name == "cpu-findTemperature":
+                        if self._cpu is None:
+                            self._cpu = Cpu()
+                        self._cpu.temperature = Temperature(event.data)
+                    elif name == "cpu-findHardwareSensors":
+                        if self._cpu is None:
+                            self._cpu = Cpu()
+                        self._cpu.hardware_sensors = [
+                            HardwareSensor(item) for item in event.data
+                        ]
                     elif name == "display":
                         self._display = DisplayBase(event.data)
                     elif name == "filesystem":
                         self._filesystem = Filesystem(event.data)
+                    elif name == "filesystem-findBlockDevices":
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem()
+                        self._filesystem.blockDevices = BlockDevices(event.data)
+                    elif name == "filesystem-findDisksLayout":
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem()
+                        self._filesystem.diskLayout = DiskLayout(event.data)
+                    elif name == "filesystem-findDisksIO":
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem()
+                        self._filesystem.diskLayout = DiskLayout(event.data)
+                    elif name == "filesystem-findSizes":
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem()
+                        self._filesystem.fsSize = FsSize(event.data)
                     elif name == "graphics":
                         self._graphics = Graphics(event.data)
                     elif name == "information":
@@ -338,6 +386,10 @@ class Bridge(BridgeBase):
                         self._os = Os(event.data)
                     elif name == "processes":
                         self._processes = Processes(event.data)
+                    elif name == "processes-findCurrentLoad":
+                        if self._processes is None:
+                            self._processes = Processes()
+                        self._processes.load = Load(event.data)
                     elif name == "settings":
                         self._settings = [Settings(setting) for setting in event.data]
                     elif name == "system":
