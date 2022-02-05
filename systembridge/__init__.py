@@ -319,19 +319,15 @@ class Bridge(BridgeBase):
                     if name == "audio":
                         self._audio = Audio(event.data)
                     if name == "audio-findCurrent":
-                        self._audio = Audio(
-                            {
-                                **self._audio,
-                                "current": event.data,
-                            }
-                        )
+                        if self._audio is None:
+                            self._audio = Audio({"current": event.data})
+                        else:
+                            self._audio = Audio({**self._audio, "current": event.data})
                     if name == "audio-getDevices":
-                        self._audio = Audio(
-                            {
-                                **self._audio,
-                                "devices": event.data,
-                            }
-                        )
+                        if self._audio is None:
+                            self._audio = Audio({"devices": event.data})
+                        else:
+                            self._audio = Audio({**self._audio, "devices": event.data})
                     elif name == "battery":
                         self._battery = Battery(event.data)
                     elif name == "bluetooth":
@@ -339,72 +335,64 @@ class Bridge(BridgeBase):
                     elif name == "cpu":
                         self._cpu = Cpu(event.data)
                     elif name == "cpu-findCpuCache":
-                        self._cpu = Cpu(
-                            {
-                                **self._cpu,
-                                "cache": event.data,
-                            }
-                        )
+                        if self._cpu is None:
+                            self._cpu = Cpu({"cache": event.data})
+                        else:
+                            self._cpu = Cpu({**self._audio, "cache": event.data})
                     elif name == "cpu-findCpu":
-                        self._cpu = Cpu(
-                            {
-                                **self._cpu,
-                                "cpu": event.data,
-                            }
-                        )
+                        if self._cpu is None:
+                            self._cpu = Cpu({"cpu": event.data})
+                        else:
+                            self._cpu = Cpu({**self._audio, "cpu": event.data})
                     elif name == "cpu-findCurrentSpeed":
-                        self._cpu = Cpu(
-                            {
-                                **self._cpu,
-                                "currentSpeed": event.data,
-                            }
-                        )
+                        if self._cpu is None:
+                            self._cpu = Cpu({"currentSpeed": event.data})
+                        else:
+                            self._cpu = Cpu({**self._audio, "currentSpeed": event.data})
                     elif name == "cpu-findTemperature":
-                        self._cpu = Cpu(
-                            {
-                                **self._cpu,
-                                "temperature": event.data,
-                            }
-                        )
+                        if self._cpu is None:
+                            self._cpu = Cpu({"temperature": event.data})
+                        else:
+                            self._cpu = Cpu({**self._audio, "temperature": event.data})
                     elif name == "cpu-findHardwareSensors":
-                        self._cpu = Cpu(
-                            {
-                                **self._cpu,
-                                "hardwareSensors": event.data,
-                            }
-                        )
+                        if self._cpu is None:
+                            self._cpu = Cpu({"hardwareSensors": event.data})
+                        else:
+                            self._cpu = Cpu(
+                                {**self._audio, "hardwareSensors": event.data}
+                            )
                     elif name == "display":
                         self._display = DisplayBase(event.data)
                     elif name == "filesystem":
                         self._filesystem = Filesystem(event.data)
                     elif name == "filesystem-findBlockDevices":
-                        self._filesystem = Filesystem(
-                            {
-                                **self._filesystem,
-                                "blockDevices": event.data,
-                            }
-                        )
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem({"blockDevices": event.data})
+                        else:
+                            self._filesystem = Filesystem(
+                                {**self._audio, "blockDevices": event.data}
+                            )
                     elif name == "filesystem-findDisksLayout":
-                        self._filesystem = Filesystem(
-                            {
-                                **self._filesystem,
-                                "diskLayout": event.data,
-                            }
-                        )
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem({"diskLayout": event.data})
+                        else:
+                            self._filesystem = Filesystem(
+                                {**self._audio, "diskLayout": event.data}
+                            )
                     elif name == "filesystem-findDisksIO":
-                        self._filesystem = Filesystem(
-                            {
-                                **self._filesystem,
-                                "disksIO": event.data,
-                            }
-                        )
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem({"disksIO": event.data})
+                        else:
+                            self._filesystem = Filesystem(
+                                {**self._audio, "disksIO": event.data}
+                            )
                     elif name == "filesystem-findSizes":
-                        self._filesystem = Filesystem(
-                            {
-                                **self._filesystem,
-                                "fsSize": event.data,
-                            }
-                        )
+                        if self._filesystem is None:
+                            self._filesystem = Filesystem({"fsSize": event.data})
+                        else:
+                            self._filesystem = Filesystem(
+                                {**self._audio, "fsSize": event.data}
+                            )
                     elif name == "graphics":
                         self._graphics = Graphics(event.data)
                     elif name == "information":
@@ -419,13 +407,11 @@ class Bridge(BridgeBase):
                         self._processes = Processes(event.data)
                     elif name == "processes-findCurrentLoad":
                         if self._processes is None:
-                            self._processes = Processes({})
-                        self._processes = Processes(
-                            {
-                                **self._processes,
-                                "load": event.data,
-                            }
-                        )
+                            self._processes = Processes({"load": event.data})
+                        else:
+                            self._processes = Processes(
+                                {**self._audio, "load": event.data}
+                            )
                     elif name == "settings":
                         self._settings = [Settings(setting) for setting in event.data]
                     elif name == "system":
