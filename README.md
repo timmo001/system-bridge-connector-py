@@ -1,8 +1,7 @@
 # System Bridge Connector - Python
 
-[![CI](https://github.com/timmo001/system-bridge-connector-py/actions/workflows/ci.yml/badge.svg)](https://github.com/timmo001/system-bridge-connector-py/actions/workflows/ci.yml)
-![CodeQL](https://github.com/timmo001/system-bridge-connector-py/workflows/CodeQL/badge.svg)
+⚠️ DEPRECATED: Replaced in Version 3.0.0 by connector in monorepo at https://github.com/timmo001/system-bridge ⚠️
 
 Python package for connecting to [System Bridge](https://github.com/timmo001/system-bridge).
 
-![Logo](https://raw.githubusercontent.com/timmo001/system-bridge/master/public/system-bridge-rect.png)
+![Logo](https://raw.githubusercontent.com/timmo001/system-bridge/master/resources/system-bridge-rect.png)
